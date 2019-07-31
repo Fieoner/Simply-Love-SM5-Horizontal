@@ -67,6 +67,15 @@ local SL_CustomPrefs =
 		},
 		Values = { true, false }
 	},
+	UseLegacyDensityGraph =
+	{
+		Default = false,
+		Choices = {
+			"Legacy",
+			"New"
+		},
+		Values = { true, false }
+	},
 	VisualTheme =
 	{
 		Default = "Hearts",
