@@ -33,7 +33,7 @@ for t in ivalues(sequential_offsets) do
 	-- the second value in t is the offset value or the string "Miss"
 	val = t[2]
 
-	if val ~= "Miss" then
+	if not string.find(val, "Miss.") then
 		val = (math.floor(val*1000))/1000
 
 		if not offsets[val] then

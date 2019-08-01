@@ -14,6 +14,7 @@ if SL.Global.GameMode ~= "Casual" then
 			end
 		},
 
+        LoadActor("./ArrowsScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
         LoadActor("./ScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
 
 		Def.GraphDisplay{
