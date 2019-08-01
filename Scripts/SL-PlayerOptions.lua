@@ -168,7 +168,7 @@ local Overrides = {
 		Choices = function()
 			local first	= -100
 			local last 	= 150
-			local step 	= 5
+			local step 	= 1
 
 			return stringify( range(first, last, step), "%g%%")
 		end,
@@ -190,8 +190,8 @@ local Overrides = {
 	MusicRate = {
 		Choices = function()
 			local first	= 0.05
-			local last 	= 2
-			local step 	= 0.01
+			local last 	= 3
+			local step 	= 0.002
 
 			return stringify( range(first, last, step), "%g")
 		end,
