@@ -307,6 +307,10 @@ local Overrides = {
 		end,
 	},
 	-------------------------------------------------------------------------
+	DangerScream = {
+		Values = function() return { "Enabled", "Disabled" } end,
+	},
+	-------------------------------------------------------------------------
 	MeasureCounter = {
 		Values = function() return { "None", "8th", "12th", "16th", "24th", "32nd" } end,
 	},
