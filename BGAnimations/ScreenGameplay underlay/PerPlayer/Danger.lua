@@ -50,8 +50,13 @@ local danger = Def.Quad{
 		self:linear(0.3):diffusealpha(0.7):diffuseshift():effectcolor1(1, 0, 0.24, 0.1):effectcolor2(1, 0, 0, 0.35)
 		curr_beat = math.floor(GAMESTATE:GetPlayerState(Player):GetSongPosition():GetSongBeatVisible())
 		ScreamBeatsAgo = curr_beat - lastScream
-		if ScreamBeatsAgo > 4 then
-			SOUND:PlayOnce(THEME:GetPathS("", "allez0.wav"))
+		if ScreamBeatsAgo > 16 then
+			if ScreamBeatsAgo < 48 then
+				SOUND:PlayOnce(THEME:GetPathS("", "allez1.wav"))
+			else
+				SOUND:PlayOnce(THEME:GetPathS("", "allez0.wav"))
+			end
+			lastScream = curr_beat
 		end
 	end,
 	DeadCommand=cmd(diffusealpha,0; stopeffect; stoptweening; diffuse, 1,0,0,1; linear,0.3; diffusealpha,0.8; linear,0.3; diffusealpha,0),
