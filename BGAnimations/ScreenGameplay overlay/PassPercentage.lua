@@ -7,7 +7,7 @@ local notes_passed = 0
 
 return Def.Actor{
 	HealthStateChangedMessageCommand=function(self, param)
-		if param.Player == pn and param.HealthState == "HealthState_Dead" then
+		if param.PlayerNumber == player and param.HealthState == "HealthState_Dead" then
 			alive = false
 		end
 	end,
