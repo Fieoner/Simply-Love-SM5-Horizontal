@@ -18,7 +18,7 @@ if perc == "100.00" then return end
 
 local t = Def.ActorFrame{
 	OnCommand=function(self)
-		self:y( 50 )
+		self:y( 45 )
 		self:x( (pn == PLAYER_1 and -215) or 60 )
 	end,
 	LoadFont("_wendy white")..{
