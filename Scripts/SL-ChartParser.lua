@@ -314,7 +314,7 @@ function GetStreamBreakdown(SongDir, StepsType, Difficulty)
 	local NotesPerMeasure = 16
 	local MeasureSequenceThreshold = 2
 	local streams = GetStreams(SongDir, StepsType, Difficulty, NotesPerMeasure, MeasureSequenceThreshold)
-	
+
 	if not streams then
 		return ""
 	end

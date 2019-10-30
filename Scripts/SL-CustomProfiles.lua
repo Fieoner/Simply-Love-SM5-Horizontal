@@ -23,7 +23,6 @@ local profile_whitelist = {
 	HideScore = "boolean",
 	HideDanger = "boolean",
 	HideComboExplosions = "boolean",
-	DangerScream = "string",
 
 	LifeMeterType = "string",
 	DataVisualizations = "string",
@@ -81,6 +80,7 @@ end
 
 -- Hook called during profile save
 function SaveProfileCustom(profile, dir)
+
 	if GAMESTATE:IsEventMode() == false then
 		return
 	end
@@ -126,4 +126,4 @@ function ReloadProfiles()
 		SL.Global.BranchOverride = "ScreenSelectMusic"
 		SCREENMAN:SetNewScreen("ScreenProfileLoad")
 	end
-end
+end 

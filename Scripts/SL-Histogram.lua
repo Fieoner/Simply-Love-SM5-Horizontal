@@ -45,7 +45,7 @@ NPS_Histogram = function(player, _w, _h)
 
 				-- magic numbers obtained from Photoshop's Eyedrop tool
 				local yellow = {0.968, 0.953, 0.2, 1}
-				local orange = {0.963, 0.453, 0.2, 1}
+				local orange = {0.863, 0.553, 0.2, 1}
 				local upper
 
 				for i, nps in ipairs(NPSperMeasure) do
@@ -58,13 +58,12 @@ NPS_Histogram = function(player, _w, _h)
 						-- subtract 1 from i now to get the actual measure number to calculate time
 						t = TimingData:GetElapsedTimeFromBeat((i-1)*4)
 						
-						-- testing stuff
 						if legacygraph then
 							t1 = TimingData:GetElapsedTimeFromBeat((i)*4)
 							x1 = scale(t1,  0, LastSecond, 0, _w)
 						end
 
-						x = scale(t,  0, LastSecond, 0, _w)
+						x = scale(t, FirstSecond, LastSecond, 0, _w)
 						y = round(-1 * scale(nps, 0, PeakNPS, 0, _h))
 
 						-- if the height of this measure is the same as the previous two measures
@@ -82,7 +81,6 @@ NPS_Histogram = function(player, _w, _h)
 
 							verts[#verts+1] = {{x, 0, 0}, yellow} -- bottom of graph (yellow)
 							verts[#verts+1] = {{x, y, 0}, upper}  -- top of graph (somewhere between yellow and orange)
-							-- testing stuff
 							if legacygraph then
 								verts[#verts+1] = {{x1, 0, 0}, yellow} -- bottom of graph (yellow)
 								verts[#verts+1] = {{x1, y, 0}, upper}  -- top of graph (somewhere between yellow and orange)
