@@ -32,6 +32,7 @@ local worst_window = SL.Preferences[SL.Global.GameMode]["TimingWindowSecondsW"..
 for t in ivalues(sequential_offsets) do
 	CurrentSecond = t[1]
 	Offset = t[2]
+	SM(t)
 
 	if not string.find(Offset ,"Miss.") then
 		CurrentSecond = CurrentSecond - Offset

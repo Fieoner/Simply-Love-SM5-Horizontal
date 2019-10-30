@@ -9,6 +9,10 @@
 if SL.Global.GameMode == "Casual" then return end
 
 local player = ...
+local buttons = {
+	dance = { "Left", "Down", "Up", "Right" },
+	pump = { "DownLeft", "UpLeft", "Center", "UpRight", "DownRight" }
+}
 local sequential_offsets = {}
 
 return Def.Actor{
@@ -19,7 +23,12 @@ return Def.Actor{
 		if params.TapNoteOffset then
 			-- If the judgment was a Miss, store the string "Miss" as offset instead of the number 0.
 			-- For all other judgments, store the offset value provided by the engine as a number.
-			local offset = params.TapNoteScore == "TapNoteScore_Miss" and "Miss" or params.TapNoteOffset
+			local offset 
+			if params.TapNoteScore == "TapNoteScore_Miss" then
+				offset = "Miss" .. params.FirstTrack+1
+			else
+				offset = params.TapNoteOffset
+			end
 
 			-- Store judgment offsets (including misses) in an indexed table as they occur.
 			-- Also store the CurMusicSeconds for Evaluation's scatter plot.
