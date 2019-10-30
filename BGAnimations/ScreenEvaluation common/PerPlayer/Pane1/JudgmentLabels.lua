@@ -2,16 +2,14 @@ local player = ...
 local pn = ToEnumShortString(player)
 local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
 
-local mode = ""
-if SL.Global.GameMode == "StomperZ" then mode = "StomperZ" end
-if SL.Global.GameMode == "ECFA" then mode = "ECFA" end
+local tns_string = "TapNoteScore" .. (SL.Global.GameMode=="ITG" and "" or SL.Global.GameMode)
 
 local firstToUpper = function(str)
     return (str:gsub("^%l", string.upper))
 end
 
 local getStringFromTheme = function( arg )
-	return THEME:GetString("TapNoteScore" .. mode, arg);
+	return THEME:GetString(tns_string, arg);
 end
 
 --Values above 0 means the user wants to be shown or told they are nice.
@@ -43,7 +41,7 @@ for index, window in ipairs(TapNoteScores.Types) do
 end
 
 local t = Def.ActorFrame{
-	InitCommand=cmd(xy, 50, _screen.cy-24),
+	InitCommand=function(self) self:xy(50, _screen.cy-24) end,
 	OnCommand=function(self)
 		if player == PLAYER_2 then
 			self:x( self:GetX() * -1)
@@ -61,15 +59,15 @@ for i=1, #TapNoteScores.Types do
 		local window = TapNoteScores.Types[i]
 		local label = getStringFromTheme( window )
 
-		t[#t+1] = LoadFont("_miso")..{
+		t[#t+1] = LoadFont("Common Normal")..{
 			Text=(nice and scores_table[window] == 69) and 'NICE' or label:upper(),
-			InitCommand=cmd(zoom,0.833; horizalign,right; maxwidth, 76),
+			InitCommand=function(self) self:zoom(0.833):horizalign(right):maxwidth(76) end,
 			BeginCommand=function(self)
 				self:x( (player == PLAYER_1 and 28) or -28 )
 				self:y((i-1)*28 -16)
 
 				-- diffuse the JudgmentLabels the appropriate colors for the current GameMode
-				if SL.Global.GameMode ~= "Competitive" then
+				if SL.Global.GameMode ~= "ITG" then
 					self:diffuse( SL.JudgmentColors[SL.Global.GameMode][i] )
 				end
 			end
@@ -83,10 +81,10 @@ for index, label in ipairs(RadarCategories) do
 	local performance = stats:GetRadarActual():GetValue( "RadarCategory_"..firstToUpper(EnglishRadarCategories[label]) )
 	local possible = stats:GetRadarPossible():GetValue( "RadarCategory_"..firstToUpper(EnglishRadarCategories[label]) )
 
-	t[#t+1] = LoadFont("_miso")..{
-		-- lua ternary operators are adorable
+	t[#t+1] = LoadFont("Common Normal")..{
+		-- lua ternary operators are adorable -ian5v
 		Text=(nice and (performance == 69 or possible == 69)) and 'nice' or label,
-		InitCommand=cmd(NoStroke;zoom,0.833; horizalign,right ),
+		InitCommand=function(self) self:zoom(0.833):horizalign(right) end,
 		BeginCommand=function(self)
 			self:x( (player == PLAYER_1 and -160) or 90 )
 			self:y((index-1)*28 + 41)

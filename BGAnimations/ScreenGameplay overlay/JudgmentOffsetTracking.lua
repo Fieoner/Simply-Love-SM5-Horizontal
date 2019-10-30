@@ -1,4 +1,11 @@
--- don't bother for Casual gamemode
+-- In this file, we're storing judgment offset data that occurs during gameplay so that
+-- ScreenEvaluation can use it to draw both the scatterplot and the offset histogram.
+--
+-- Similar to PerColumnJudgmentTracking.lua, this file doesn't override or recreate the engine's
+-- judgment system in any way. It just allows transient judgment data to persist beyond ScreenGameplay.
+------------------------------------------------------------
+
+-- don't bother tracking for Casual gamemode
 if SL.Global.GameMode == "Casual" then return end
 
 local player = ...
@@ -24,8 +31,8 @@ return Def.Actor{
 				offset = params.TapNoteOffset
 			end
 
-			-- store judgment offsets (including misses) in an indexed table as they come
-			-- also store the CurMusicSeconds for Evaluation's scatter plot
+			-- Store judgment offsets (including misses) in an indexed table as they occur.
+			-- Also store the CurMusicSeconds for Evaluation's scatter plot.
 			sequential_offsets[#sequential_offsets+1] = { GAMESTATE:GetCurMusicSeconds(), offset }
 		end
 	end,
