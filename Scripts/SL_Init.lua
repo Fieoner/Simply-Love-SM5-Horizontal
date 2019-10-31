@@ -80,7 +80,7 @@ local GlobalDefaults = {
 				PlayerOptions3 = "ScreenGameplay",
 			}
 			self.ContinuesRemaining = ThemePrefs.Get("NumberOfContinuesAllowed") or 0
-			self.GameMode = ThemePrefs.Get("DefaultGameMode") or "ITG"
+			self.GameMode = ThemePrefs.Get("DefaultGameMode") or "ITG3"
 			self.ScreenshotTexture = nil
 			self.MenuTimer = {
 				ScreenSelectMusic = ThemePrefs.Get("ScreenSelectMusicMenuTimer"),
