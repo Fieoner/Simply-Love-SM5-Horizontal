@@ -66,7 +66,7 @@ for player in ivalues(Players) do
 		LoadActor("./PerPlayer/Difficulty.lua", player),
 
 		-- Record Texts (Machine and/or Personal)
-		LoadActor("./PerPlayer/RecordTexts.lua", player)
+		LoadActor("./PerPlayer/RecordTexts.lua", player),
 	}
 
 	-- the lower half of ScreenEvaluation

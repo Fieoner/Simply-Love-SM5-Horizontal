@@ -21,7 +21,7 @@ drawarrow = function(arrow, i)
 			Name="NoteSkin_"..noteskin,
 			InitCommand=function(self) self:visible(true)
 			self:x(pn == "P1" and -GraphWidth/2-10 or GraphWidth/2+10)
-				:y(_screen.cy + 158 - GraphHeight/2 + 13*i)
+				:y(_screen.cy - 195 - GraphHeight/2 + 13*i)
 				:zoom(.22)
 		end
 		}

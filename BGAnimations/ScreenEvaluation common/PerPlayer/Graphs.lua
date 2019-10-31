@@ -28,6 +28,7 @@ return Def.ActorFrame{
 	},
 
 	LoadActor("./ScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
+	LoadActor("./ArrowsScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
 
 	Def.GraphDisplay{
 		Name="GraphDisplay",
