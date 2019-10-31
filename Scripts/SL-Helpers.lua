@@ -420,7 +420,8 @@ SetGameModePreferences = function()
 		ITG = "",
 		["FA+"] = "ECFA-",
 		StomperZ = "StomperZ-",
-		Casual = "Casual-"
+		Casual = "Casual-",
+		ITG3 = "ITG3-"
 	}
 
 	if PROFILEMAN:GetStatsPrefix() ~= prefix[SL.Global.GameMode] then
@@ -526,7 +527,7 @@ function StripSpriteHints(filename)
 end
 
 function GetJudgmentGraphics(mode)
-	if mode == 'Casual' then mode = 'ITG' end
+	if mode == 'Casual' or mode == 'ITG3' then mode = 'ITG' end
 	local path = THEME:GetPathG('', '_judgments/' .. mode)
 	local files = FILEMAN:GetDirListing(path .. '/')
 	local judgment_graphics = {}

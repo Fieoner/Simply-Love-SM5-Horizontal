@@ -131,6 +131,14 @@ SL = {
 			color("#c9855e"),	-- peach?
 			color("#ff0000")	-- red
 		},
+		ITG3 = {
+			color("#21CCE8"),	-- blue
+			color("#e29c18"),	-- gold
+			color("#66c955"),	-- green
+			color("#5b2b8e"),	-- purple
+			color("#c9855e"),	-- peach?
+			color("#ff0000")	-- red
+		},
 		ITG = {
 			color("#21CCE8"),	-- blue
 			color("#e29c18"),	-- gold
@@ -175,6 +183,26 @@ SL = {
 			TimingWindowSecondsW5=0.102000,
 			TimingWindowSecondsHold=0.320000,
 			TimingWindowSecondsMine=0.070000,
+			TimingWindowSecondsRoll=0.350000,
+		},
+		ITG3 = {
+			TimingWindowAdd=0.0000,
+			RegenComboAfterMiss=5,
+			MaxRegenComboAfterMiss=5,
+			MinTNSToHideNotes="TapNoteScore_W3",
+			HarshHotLifePenalty=1,
+
+			PercentageScoring=1,
+			AllowW1="AllowW1_Everywhere",
+			SubSortByNumSteps=1,
+
+			TimingWindowSecondsW1=0.015000,
+			TimingWindowSecondsW2=0.030000,
+			TimingWindowSecondsW3=0.050000,
+			TimingWindowSecondsW4=0.100000,
+			TimingWindowSecondsW5=0.160000,
+			TimingWindowSecondsHold=0.250000,
+			TimingWindowSecondsMine=0.050000,
 			TimingWindowSecondsRoll=0.350000,
 		},
 		ITG = {
@@ -269,6 +297,37 @@ SL = {
 			LifePercentChangeLetGo=0,
 			LifePercentChangeHeld=0,
 			LifePercentChangeHitMine=0,
+		},
+		ITG3 = {
+			PercentScoreWeightW1=10,
+			PercentScoreWeightW2=9,
+			PercentScoreWeightW3=6,
+			PercentScoreWeightW4=3,
+			PercentScoreWeightW5=0,
+			PercentScoreWeightMiss=0,
+			PercentScoreWeightLetGo=0,
+			PercentScoreWeightHeld=6,
+			PercentScoreWeightHitMine=-3,
+
+			GradeWeightW1=10,
+			GradeWeightW2=9,
+			GradeWeightW3=6,
+			GradeWeightW4=3,
+			GradeWeightW5=0,
+			GradeWeightMiss=0,
+			GradeWeightLetGo=0,
+			GradeWeightHeld=6,
+			GradeWeightHitMine=-3,
+
+			LifePercentChangeW1=0.010,
+			LifePercentChangeW2=0.010,
+			LifePercentChangeW3=0.010,
+			LifePercentChangeW4=0.005,
+			LifePercentChangeW5=-0.050,
+			LifePercentChangeMiss=-0.100,
+			LifePercentChangeLetGo=IsGame("pump") and 0.000 or -0.080,
+			LifePercentChangeHeld=IsGame("pump") and 0.000 or 0.008,
+			LifePercentChangeHitMine=-0.050,
 		},
 		ITG = {
 			PercentScoreWeightW1=5,

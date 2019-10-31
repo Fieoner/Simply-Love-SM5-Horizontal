@@ -27,9 +27,6 @@ local histogramWidth = bannerWidth - (padding * 2)
 local histogramHeight = bannerHeight / 2 - (padding * 1.5)
 local histogram = NPS_Histogram(player, histogramWidth, histogramHeight)
  
--- don't do anything when song changes
-histogram.CurrentSongChangedMessageCommand=nil
-
 return Def.ActorFrame {
     InitCommand=function(self)
         local zoom, xPos
@@ -62,6 +59,12 @@ return Def.ActorFrame {
     end,
     
     StepsHaveChangedCommand=function(self, params)
+        if show then
+            self:queuecommand("UpdateGraphState")
+        end
+    end,
+
+    CurrentSongChangedMessageCommand=function(self, params)
         if show then
             self:queuecommand("UpdateGraphState")
         end
@@ -120,6 +123,11 @@ return Def.ActorFrame {
         end,
 
         StepsHaveChangedCommand=function(self, params)
+            if show then
+                self:queuecommand("UpdateGraphState")
+            end
+        end,
+        CurrentSongChangedMessageCommand=function(self, params)
             if show then
                 self:queuecommand("UpdateGraphState")
             end
