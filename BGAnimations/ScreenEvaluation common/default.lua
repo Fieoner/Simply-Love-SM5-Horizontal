@@ -59,6 +59,9 @@ for player in ivalues(Players) do
 		-- nice
 		LoadActor("./PerPlayer/nice.lua", player),
 
+		-- pass percentage
+		LoadActor("./PerPlayer/PassPercentage.lua", player),
+
 		-- stepartist
 		LoadActor("./PerPlayer/StepArtist.lua", player),
 
