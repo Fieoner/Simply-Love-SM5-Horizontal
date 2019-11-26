@@ -51,4 +51,16 @@ return Def.ActorFrame{
 			end
 		end
 	},
+
+	Def.ComboGraph{
+		InitCommand=function(self)
+			self:Load("ComboGraph" .. ToEnumShortString(player))
+			self:y( _screen.cy - 182 )
+		end,
+		OnCommand=function(self)
+			local playerStageStats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
+			local stageStats = STATSMAN:GetCurStageStats()
+			self:Set(stageStats, playerStageStats)
+		end
+	}
 }
