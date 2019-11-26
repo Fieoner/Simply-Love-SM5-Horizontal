@@ -393,8 +393,9 @@ SetGameModePreferences = function()
 		SL.Global.ActiveModifiers.WorstTimingWindow = 3
 
 	-- Otherwise, we want all TimingWindows enabled by default.
+	-- Or do we?
 	else
- 		SL.Global.ActiveModifiers.WorstTimingWindow = 5
+ 		SL.Global.ActiveModifiers.WorstTimingWindow = 4
 	end
 
 	-- loop through human players and apply whatever mods need to be set now
