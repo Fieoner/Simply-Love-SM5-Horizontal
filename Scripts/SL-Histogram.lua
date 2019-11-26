@@ -60,7 +60,7 @@ NPS_Histogram = function(player, _w, _h)
 						
 						if legacygraph then
 							t1 = TimingData:GetElapsedTimeFromBeat((i)*4)
-							x1 = scale(t1,  0, LastSecond, 0, _w)
+							x1 = scale(t1,  FirstSecond, LastSecond, 0, _w)
 						end
 
 						x = scale(t, FirstSecond, LastSecond, 0, _w)
