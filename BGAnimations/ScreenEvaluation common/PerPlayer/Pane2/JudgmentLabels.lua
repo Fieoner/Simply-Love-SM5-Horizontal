@@ -53,6 +53,16 @@ if track_missbcheld then
 			self:x( miss_bmt:GetX() - miss_bmt:GetWidth()/1.15 )
 		end
 	}
+	t[#t+1] = LoadFont("Common Normal")..{
+		Text="MAYBE",
+		InitCommand=function(self)
+			self:y(130):zoom(0.6):halign(1)
+				:diffuse( SL.JudgmentColors[SL.Global.GameMode][6] )
+		end,
+		OnCommand=function(self)
+			self:x( miss_bmt:GetX() - miss_bmt:GetWidth()/1.15 )
+		end
+	}
 end
 
 return t

@@ -62,6 +62,9 @@ for player in ivalues(Players) do
 		-- pass percentage
 		LoadActor("./PerPlayer/PassPercentage.lua", player),
 
+		-- ex score percentage
+		LoadActor("./PerPlayer/ExScore.lua", player),
+
 		-- stepartist
 		LoadActor("./PerPlayer/StepArtist.lua", player),
 
