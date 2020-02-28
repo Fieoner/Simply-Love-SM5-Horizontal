@@ -103,7 +103,6 @@ else
 	actor.JudgmentMessageCommand=function(self, params)
 		if params.Player == player and params.Notes then
 			for col,tapnote in pairs(params.Notes) do
-				SM(lastTap2..lastTap..col)
 				local tns = ToEnumShortString(params.TapNoteScore)
 				judgments[col][tns] = judgments[col][tns] + 1
 
