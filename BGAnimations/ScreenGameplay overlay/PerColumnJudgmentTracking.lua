@@ -51,10 +51,11 @@ else
 	-- add MissBecauseHeld as a possible judgment for all columns
 	for i,col_judgments in ipairs(judgments) do
 		col_judgments.MissBecauseHeld=0
-		col_judgments.MaybeHeld=0
 	end
 
-	-- testing stuff for possible better missbecauseheld tracking
+	-- remember the columns of the last 2 notes to guess if a miss was because held
+	-- (if you don't release a panel in a short anchor pattern your miss might not be 
+	-- counted as "held" even though it was)
 	local lastTap = "n"
 	local lastTap2 = "n"
 
@@ -110,7 +111,7 @@ else
 					if held[params.Player][ buttons[current_game][col] ] then
 						judgments[col].MissBecauseHeld = judgments[col].MissBecauseHeld + 1
 					elseif lastTap2 == col or lastTap == col then
-						judgments[col].MaybeHeld = judgments[col].MaybeHeld + 1
+						judgments[col].MissBecauseHeld = judgments[col].MissBecauseHeld + 1
 					end
 				end
 				lastTap2 = lastTap

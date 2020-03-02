@@ -82,15 +82,6 @@ for i,column in ipairs( columns[game] ) do
 				self:x( self:GetX() - miss_bmt:GetWidth()/2 )
 			end
 		}
-		af[#af+1] = LoadFont("Common Normal")..{
-			Text=SL[pn].Stages.Stats[SL.Global.Stages.PlayedThisGame + 1].column_judgments[i].MaybeHeld,
-			InitCommand=function(self)
-				self:xy(i*column_width - 1, 134):zoom(0.65):halign(1)
-			end,
-			OnCommand=function(self)
-				self:x( self:GetX() - miss_bmt:GetWidth()/2 )
-			end
-		}
 	end
 end
 
