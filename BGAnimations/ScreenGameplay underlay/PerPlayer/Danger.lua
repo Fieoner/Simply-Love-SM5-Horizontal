@@ -30,7 +30,6 @@ local IsPlayingDouble = (styleType == 'StyleType_OnePlayerTwoSides' or styleType
 
 -- initialize each stage at a HealthState of "alive"
 local prevHealth = "HealthState_Alive"
-local lastScream = -99
 
 local danger = Def.Quad{
 	Name="Danger" .. ToEnumShortString(Player),
@@ -46,22 +45,10 @@ local danger = Def.Quad{
 			self:fadeleft(0.1):stretchto(_screen.cx,0,_screen.w,_screen.h)
 		end
 	end,
-	DangerCommand=function(self)
-		self:linear(0.3):diffusealpha(0.7):diffuseshift():effectcolor1(1, 0, 0.24, 0.1):effectcolor2(1, 0, 0, 0.35)
-		curr_beat = math.floor(GAMESTATE:GetPlayerState(Player):GetSongPosition():GetSongBeatVisible())
-		ScreamBeatsAgo = curr_beat - lastScream
-		if ScreamBeatsAgo > 16 then
-			if ScreamBeatsAgo < 48 then
-				SOUND:PlayOnce(THEME:GetPathS("", "allez1.wav"))
-			else
-				SOUND:PlayOnce(THEME:GetPathS("", "allez0.wav"))
-			end
-			lastScream = curr_beat
-		end
-	end,
-	DeadCommand=cmd(diffusealpha,0; stopeffect; stoptweening; diffuse, 1,0,0,1; linear,0.3; diffusealpha,0.8; linear,0.3; diffusealpha,0),
-	OutOfDangerCommand=cmd(diffusealpha,0; stopeffect; stoptweening; diffuse,color("0,1,0"); linear,0.3; diffusealpha,0.8; linear,0.3; diffusealpha,0),
-	HideCommand=cmd(stopeffect; stoptweening; linear,0.3; diffusealpha,0)
+	DangerCommand=function(self) self:linear(0.3):diffusealpha(0.7):diffuseshift():effectcolor1(1, 0, 0.24, 0.1):effectcolor2(1, 0, 0, 0.35) end,
+	DeadCommand=function(self) self:diffusealpha(0):stopeffect():stoptweening():diffuse(1,0,0,1):linear(0.3):diffusealpha(0.8):linear(0.3):diffusealpha(0) end,
+	OutOfDangerCommand=function(self) self:diffusealpha(0):stopeffect():stoptweening():diffuse(0,1,0,1):linear(0.3):diffusealpha(0.8):linear(0.3):diffusealpha(0) end,
+	HideCommand=function(self) self:stopeffect():stoptweening():linear(0.3):diffusealpha(0) end
 }
 
 -- if the player has HideDanger enabled, we only want to flash the red Quad if they fail
