@@ -88,6 +88,8 @@ function NPS_Histogram(player, width, height)
 	local amv = Def.ActorMultiVertex{
 		Name="DensityGraph_AMV",
 		InitCommand=function(self)
+			local verts = gen_vertices(player, width, height)
+			self:SetNumVertices(#verts):SetVertices(verts)
 			self:SetDrawState({Mode="DrawMode_QuadStrip"})
 		end,
 		CurrentSongChangedMessageCommand=function(self)
@@ -137,79 +139,11 @@ function Scrolling_NPS_Histogram(player, width, height)
 				end
 			end
 
-<<<<<<< HEAD
-			local PeakNPS, NPSperMeasure = GetNPSperMeasure(Song, Steps)
-			-- broadcast this for any other actors on the current screen that rely on knowing the peak nps
-			MESSAGEMAN:Broadcast("PeakNPSUpdated", {PeakNPS=PeakNPS})
-
-			-- also, store the PeakNPS in SL[pn] in case both players are joined
-			-- their charts may have different peak densities, and if they both want histograms,
-			-- we'll need to be able to compare densities and scale one of the graphs vertically
-			SL[ToEnumShortString(player)].NoteDensity.Peak = PeakNPS
-
-			-- FIXME: come up with a way to do this^ that doesn't rely on the SL table so other
-			-- themes can use this NPS_Histogram function more easily
-
-			local verts = {}
-			local x, y, t
-
-			if (PeakNPS and NPSperMeasure and #NPSperMeasure > 1) then
-
-				local TimingData = Steps:GetTimingData()
-				local FirstSecond = TimingData:GetElapsedTimeFromBeat(0)
-				local LastSecond = Song:GetLastSecond()
-
-				-- magic numbers obtained from Photoshop's Eyedrop tool
-				local yellow = {0.968, 0.953, 0.2, 1}
-				local orange = {0.863, 0.553, 0.2, 1}
-				local upper
-
-				for i, nps in ipairs(NPSperMeasure) do
-
-					if nps > 0 then first_step_has_occurred = true end
-
-					if first_step_has_occurred then
-						-- i will represent the current measure number but will be 1 larger than
-						-- it should be (measures in SM start at 0; indexed Lua tables start at 1)
-						-- subtract 1 from i now to get the actual measure number to calculate time
-						t = TimingData:GetElapsedTimeFromBeat((i-1)*4)
-						
-						if legacygraph then
-							t1 = TimingData:GetElapsedTimeFromBeat((i)*4)
-							x1 = scale(t1,  FirstSecond, LastSecond, 0, _w)
-						end
-
-						x = scale(t, FirstSecond, LastSecond, 0, _w)
-						y = round(-1 * scale(nps, 0, PeakNPS, 0, _h))
-
-						-- if the height of this measure is the same as the previous two measures
-						-- we don't need to add two more points (bottom and top) to the verts table,
-						-- we can just "extend" the previous two points by updating their x position
-						-- to that of the current measure.  For songs with long streams, this should
-						-- cut down on the overall size of the verts table significantly.
-						if #verts > 2 and verts[#verts][1][2] == y and verts[#verts-3][1][2] == y then
-							verts[#verts][1][1] = x
-							verts[#verts-1][1][1] = x
-						else
-							-- lerp_color() take a float between [0,1], color1, and color2, and returns a color
-							-- that has been linearly interpolated by that percent between the colors provided
-							upper = lerp_color(math.abs(y/_h), yellow, orange )
-
-							verts[#verts+1] = {{x, 0, 0}, yellow} -- bottom of graph (yellow)
-							verts[#verts+1] = {{x, y, 0}, upper}  -- top of graph (somewhere between yellow and orange)
-							if legacygraph then
-								verts[#verts+1] = {{x1, 0, 0}, yellow} -- bottom of graph (yellow)
-								verts[#verts+1] = {{x1, y, 0}, upper}  -- top of graph (somewhere between yellow and orange)
-							end
-						end
-					end
-=======
 			for i = right_idx, #verts, 2 do
 				if verts[i][1][1] <= right_offset then
 					right_idx = i
 				else
 					break
->>>>>>> 518e4a3362659d1cb6624b15ae0e1215ac5da578
 				end
 			end
 
