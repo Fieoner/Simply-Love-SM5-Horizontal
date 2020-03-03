@@ -65,6 +65,7 @@ return Def.ActorFrame {
     end,
 
     CurrentSongChangedMessageCommand=function(self, params)
+	histogram = NPS_Histogram(player, histogramWidth, histogramHeight)
         if show then
             self:queuecommand("UpdateGraphState")
         end
@@ -94,7 +95,7 @@ return Def.ActorFrame {
             self:y(histogramHeight)
 
             if show and not GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentSong() then
-                histogram:Initialize(self)
+                self:queuecommand("CurrentSongChanged")
             end
         end
     },
