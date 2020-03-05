@@ -1,6 +1,9 @@
--- This code shouldn't be here but hi I'm Fieoner and welcome to jackass
+-- if a new offset has been set (from gnGlobalOffset) and it's different from the original offset (from GlobalOffsetSeconds)
+-- then this changes it back to the original value and prints a confirmation on screen.
+-- This is not where this code should be because It's possible to change the offset with the gnGlobalOffset modifier
+-- and exit the game without ever loading this screen.
 if GAMESTATE:Env()["NewOffset"] and GAMESTATE:Env()["OriginalOffset"] ~= GAMESTATE:Env()["NewOffset"] then
-        SM("Offset has been reset to machine standard. (".. GAMESTATE:Env()["OriginalOffset"] .. ")")
+        SM("TO BE FIXED: Offset has been reset to machine standard. (".. GAMESTATE:Env()["OriginalOffset"] .. ")")
         PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["OriginalOffset"] )
 end
 
