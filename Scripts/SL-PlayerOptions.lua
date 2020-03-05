@@ -11,6 +11,22 @@ local function GetModsAndPlayerOptions(player)
 	return mods, playeroptions
 end
 
+local function fnrformat(s,e,it,format)
+        local num = {}
+        for i = s,e,it or 1 do
+                num[#num+1] = format and string.format( format, i ) or i
+        end
+        return num 
+end
+
+function fornumrange(s,e,it)
+        local num = {}
+        for i = s,e,it or 1 do
+                num[#num+1] = i 
+        end
+        return num 
+end
+
 ------------------------------------------------------------
 -- when to use Choices() vs. Values()
 --
@@ -386,6 +402,42 @@ local Overrides = {
 			end
 		end
 	},
+	-------------------------------------------------------------------------
+	gnGlobalOffset =
+        {
+                Default = 0,
+                Choices = fnrformat(-0.15,0.15,0.001,PREFSMAN:GetPreference("ThreeKeyNavigation") and tostring("%.3f") or ""),
+		Choices = function()
+			local first	= -0.15
+			local last 	= 0.15
+			local step 	= 0.001
+
+			return stringify( range(first, last, step), "%g")
+		end,
+                Values = fornumrange(-0.15,0.15,0.001),
+		LoadSelections = function(self,list)
+                        if not GAMESTATE:Env()["NewOffset"] then GAMESTATE:Env()["NewOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
+                        local envset = string.format("%.3f",GAMESTATE:Env()["NewOffset"])
+                        local set = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) 
+                        for i,_ in ipairs(self.Values) do
+                                if string.format("%.3f",_) == envset then
+                                        list[i] = true
+                                        MESSAGEMAN:Broadcast("gnGlobalOffsetChange",{choice=i})
+                                        return
+                                end
+                        end
+                        list[16] = true
+                end,
+                SaveSelections = function(self,list,player)
+                        if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
+                        for i,_ in ipairs(self.Values) do
+                                if list[i] == true then
+                                        GAMESTATE:Env()["NewOffset"] = _ 
+                                end
+                        end
+			PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["NewOffset"] )
+                end,
+        },
 	-------------------------------------------------------------------------
 	Vocalization = {
 		Choices = function()

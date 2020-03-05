@@ -1,3 +1,9 @@
+-- This code shouldn't be here but hi I'm Fieoner and welcome to jackass
+if GAMESTATE:Env()["NewOffset"] and GAMESTATE:Env()["OriginalOffset"] ~= GAMESTATE:Env()["NewOffset"] then
+        SM("Offset has been reset to machine standard. (".. GAMESTATE:Env()["OriginalOffset"] .. ")")
+        PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["OriginalOffset"] )
+end
+
 local Players = GAMESTATE:GetHumanPlayers();
 
 local t = Def.ActorFrame{
