@@ -389,13 +389,18 @@ local Overrides = {
 	-------------------------------------------------------------------------
 	gnGlobalOffset =
         {
-		-- FIXME: for some reason the choice that should be 0 shows a very small float instead of 0
 		Choices = function()
 			local first	= -0.15
 			local last 	= 0.15
 			local step 	= 0.001
 
-			return stringify( range(first, last, step), "%g")
+			-- stringify(range(first, last, step), "%g") causes 0 to display as a small exponential
+			-- so we have to use %.3f and remove trailing zeroes with gsub and a bit of magic (regexp)
+			local t = {}
+			for k, v in pairs(range(first, last, step)) do
+				t[k] = string.format("%.3f", v):gsub("%.?0+$", "")
+			end
+			return t
 		end,
 		LoadSelections = function(self,list)
                         if not GAMESTATE:Env()["NewOffset"] then GAMESTATE:Env()["NewOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
