@@ -424,7 +424,6 @@ local Overrides = {
 			return list
                 end,
                 SaveSelections = function(self,list,player)
-                        if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
                         for i,_ in ipairs(self.Values) do
                                 if list[i] == true then
                                         GAMESTATE:Env()["NewOffset"] = _ 
