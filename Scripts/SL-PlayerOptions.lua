@@ -417,20 +417,21 @@ local Overrides = {
 			return t
 		end,
 		LoadSelections = function(self,list)
-                        if not GAMESTATE:Env()["NewOffset"] then GAMESTATE:Env()["NewOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
-                        local envset = string.format("%.3f",GAMESTATE:Env()["NewOffset"])
-			local i = FindInTable(envset, self.Values) or math.round(#self.Values/2)
-                        list[i] = true
+			local gnglobaloffset = string.format("%.3f", SL.Global.ActiveModifiers.gnGlobalOffset):gsub("%.?0+$", "")
+			local i = FindInTable(gnglobaloffset, self.Values) or math.round(#self.Values/2)
+			list[i] = true
 			return list
                 end,
                 SaveSelections = function(self,list,player)
                         if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
-                        for i,_ in ipairs(self.Values) do
-                                if list[i] == true then
-                                        GAMESTATE:Env()["NewOffset"] = _ 
-                                end
-                        end
-			PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["NewOffset"] )
+			local globaloffset = ThemePrefs.Get( "DefaultGlobalOffsetSeconds" )
+			local gmods = SL.Global.ActiveModifiers
+			for i=1,#self.Values do
+				if list[i] then
+					gmods.gnGlobalOffset = tonumber( self.Values[i] )
+					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.gnGlobalOffset )
+				end
+			end
                 end,
         },
 	-------------------------------------------------------------------------
