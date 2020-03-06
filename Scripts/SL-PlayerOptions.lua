@@ -416,6 +416,8 @@ local Overrides = {
 			end
 			return t
 		end,
+		ExportOnChange = true,
+		OneChoiceForAllPlayers = true,
 		LoadSelections = function(self,list)
                         if not GAMESTATE:Env()["NewOffset"] then GAMESTATE:Env()["NewOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
                         local envset = string.format("%.3f",GAMESTATE:Env()["NewOffset"])
