@@ -398,7 +398,7 @@ local Overrides = {
 			-- so we have to use %.3f and remove trailing zeroes with gsub and a bit of magic (regexp)
 			local t = {}
 			for k, v in pairs(range(first, last, step)) do
-				earlylate = " (notes come "..( v > 0 and "earlier)" or "later)" )
+				earlylate = " (notes "..( v > 0 and "earlier)" or "later)" )
 				number = string.format("%.3f", v):gsub("%.?0+$", "")
 				-- 0 is not actually zero so we have to look for it after formatting
 				if number == "0" then earlylate = "" end
