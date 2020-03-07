@@ -387,29 +387,22 @@ local Overrides = {
 		end
 	},
 	-------------------------------------------------------------------------
-	gnGlobalOffset =
+	GlobalOffsetDelta =
         {
 		Choices = function()
-			local first	= -0.15
-			local last 	= 0.15
+			local first	= -30
+			local last 	= 30
+			local step 	= 1
+
+			return stringify( range(first, last, step), "%d ms")
+		end,
+		Values = function()
+			local first	= -0.03
+			local last 	= 0.03
 			local step 	= 0.001
 
 			-- stringify(range(first, last, step), "%g") causes 0 to display as a small exponential
 			-- so we have to use %.3f and remove trailing zeroes with gsub and a bit of magic (regexp)
-			local t = {}
-			for k, v in pairs(range(first, last, step)) do
-				earlylate = " (notes "..( v > 0 and "earlier)" or "later)" )
-				number = string.format("%.3f", v):gsub("%.?0+$", "")
-				-- 0 is not actually zero so we have to look for it after formatting
-				if number == "0" then earlylate = "" end
-				t[k] = number..earlylate
-			end
-			return t
-		end,
-		Values = function() local first	= -0.15
-			local last 	= 0.15
-			local step 	= 0.001
-
 			local t = {}
 			for k, v in pairs(range(first, last, step)) do
 				t[k] = string.format("%.3f", v):gsub("%.?0+$", "")
@@ -417,7 +410,7 @@ local Overrides = {
 			return t
 		end,
 		LoadSelections = function(self,list)
-			local gnglobaloffset = string.format("%.3f", SL.Global.ActiveModifiers.gnGlobalOffset):gsub("%.?0+$", "")
+			local gnglobaloffset = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
 			local i = FindInTable(gnglobaloffset, self.Values) or math.round(#self.Values/2)
 			list[i] = true
 			return list
@@ -428,8 +421,8 @@ local Overrides = {
 			local gmods = SL.Global.ActiveModifiers
 			for i=1,#self.Values do
 				if list[i] then
-					gmods.gnGlobalOffset = tonumber( self.Values[i] )
-					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.gnGlobalOffset )
+					gmods.GlobalOffsetDelta = tonumber( self.Values[i] )
+					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
 				end
 			end
                 end,
