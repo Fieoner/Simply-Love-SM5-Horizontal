@@ -644,16 +644,3 @@ GetGlobalOffsetDiffString = function()
 	if (diffMs > 0) then formattedDiff = "+" .. formattedDiff end
 	return formattedDiff
 end
-
--- -----------------------------------------------------------------------
--- Parse the global offset diff string in the format "+/- X ms", and return the
--- absolute value it represents.
--- Example:
--- diffString = "-3 ms"
--- DefaultGlobalOffset = 0.069
--- returns: 0.066
-GlobalOffsetAbsoluteValueFromDiffString = function(diffString)
-  local diffSeconds = tonumber(diffString:gsub(" ms", ""), 10) / 1000
-	local defaultOffset = ThemePrefs.Get("DefaultGlobalOffsetSeconds")
-	return defaultOffset + diffSeconds
-end
