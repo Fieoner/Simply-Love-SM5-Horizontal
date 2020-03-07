@@ -653,7 +653,7 @@ end
 -- DefaultGlobalOffset = 0.069
 -- returns: 0.066
 GlobalOffsetAbsoluteValueFromDiffString = function(diffString)
-  local diffSeconds = tonumber(diffString.gsub(" ms", "")) / 1000
+  local diffSeconds = tonumber(diffString:gsub(" ms", ""), 10) / 1000
 	local defaultOffset = ThemePrefs.Get("DefaultGlobalOffsetSeconds")
-	return defaultOffset + diffSeconds 
+	return defaultOffset + diffSeconds
 end
