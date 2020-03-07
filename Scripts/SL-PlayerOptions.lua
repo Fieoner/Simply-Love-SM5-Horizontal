@@ -409,14 +409,16 @@ local Overrides = {
 			end
 			return t
 		end,
+		ExportOnChange = true,
+		OneChoiceForAllPlayers = true,
 		LoadSelections = function(self,list)
 			local gnglobaloffset = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
 			local i = FindInTable(gnglobaloffset, self.Values) or math.round(#self.Values/2)
 			list[i] = true
 			return list
-                end,
-                SaveSelections = function(self,list,player)
-                        if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
+    end,
+    SaveSelections = function(self,list,player)
+      if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
 			local globaloffset = ThemePrefs.Get( "DefaultGlobalOffsetSeconds" )
 			local gmods = SL.Global.ActiveModifiers
 			for i=1,#self.Values do
@@ -425,8 +427,8 @@ local Overrides = {
 					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
 				end
 			end
-                end,
-        },
+    end,
+  },
 	-------------------------------------------------------------------------
 	Vocalization = {
 		Choices = function()
