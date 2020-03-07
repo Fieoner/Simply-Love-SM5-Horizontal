@@ -432,6 +432,7 @@ local Overrides = {
                                 end
                         end
 			PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["NewOffset"] )
+			MESSAGEMAN:Broadcast("GlobalOffsetChanged")
                 end,
         },
 	-------------------------------------------------------------------------

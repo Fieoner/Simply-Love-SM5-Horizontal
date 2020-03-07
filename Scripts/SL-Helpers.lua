@@ -627,3 +627,20 @@ GetDifficultyIndex = function(difficulty)
 	local difficulty_index = Difficulty:Reverse()[difficulty]
 	if type(difficulty_index) == "number" then return (difficulty_index + 1) end
 end
+
+-- -----------------------------------------------------------------------
+-- Get the difference between default global offset stored in ThemePrefs, and the
+-- current global offset, formatted as "+/- X ms".
+-- Example:
+-- DefaultGlobalOffset = 0.069
+-- Current GlobalOffset = 0.066
+-- returns: "-3 ms"
+GetGlobalOffsetDiffString = function()
+  local defaultOffset = ThemePrefs.Get("DefaultGlobalOffsetSeconds")
+	local currentOffset = PREFSMAN:GetPreference("GlobalOffsetSeconds")
+	local diffMs = (defaultOffset - currentOffset) * 1000
+	if (string.format("%.0f", diffMs) == "0") then return "" end
+	local formattedDiff = string.format("%.0f ms", diffMs)
+	if (diffMs > 0) then formattedDiff = "+" .. formattedDiff end
+	return formattedDiff
+end
