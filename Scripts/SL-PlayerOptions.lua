@@ -426,6 +426,7 @@ local Overrides = {
 				if list[i] then
 					gmods.GlobalOffsetDelta = tonumber( self.Values[i] )
 					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
+					MESSAGEMAN:Broadcast("GlobalOffsetChanged")
 				end
 			end
 		end,
