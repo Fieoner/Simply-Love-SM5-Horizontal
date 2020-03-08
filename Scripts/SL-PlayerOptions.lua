@@ -387,29 +387,27 @@ local Overrides = {
 		end
 	},
 	-------------------------------------------------------------------------
-	gnGlobalOffset =
+	GlobalOffsetDelta =
         {
 		Choices = function()
-			local first	= -0.15
-			local last 	= 0.15
+			local first	= -30
+			local last 	= 30
+			local step 	= 1
+
+			local t = {}
+			for k, v in pairs(range(first, last, step)) do
+				form = v > 0 and "+%d ms" or "%d ms"
+				t[k] = string.format(form, v):gsub("^+0 ms$", "0 ms") -- float bad (this 0 is positive)
+			end
+			return t
+		end,
+		Values = function()
+			local first	= -0.03
+			local last 	= 0.03
 			local step 	= 0.001
 
 			-- stringify(range(first, last, step), "%g") causes 0 to display as a small exponential
 			-- so we have to use %.3f and remove trailing zeroes with gsub and a bit of magic (regexp)
-			local t = {}
-			for k, v in pairs(range(first, last, step)) do
-				earlylate = " (notes "..( v > 0 and "earlier)" or "later)" )
-				number = string.format("%.3f", v):gsub("%.?0+$", "")
-				-- 0 is not actually zero so we have to look for it after formatting
-				if number == "0" then earlylate = "" end
-				t[k] = number..earlylate
-			end
-			return t
-		end,
-		Values = function() local first	= -0.15
-			local last 	= 0.15
-			local step 	= 0.001
-
 			local t = {}
 			for k, v in pairs(range(first, last, step)) do
 				t[k] = string.format("%.3f", v):gsub("%.?0+$", "")
@@ -419,22 +417,23 @@ local Overrides = {
 		ExportOnChange = true,
 		OneChoiceForAllPlayers = true,
 		LoadSelections = function(self,list)
-                        if not GAMESTATE:Env()["NewOffset"] then GAMESTATE:Env()["NewOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
-                        local envset = string.format("%.3f",GAMESTATE:Env()["NewOffset"])
-			local i = FindInTable(envset, self.Values) or math.round(#self.Values/2)
-                        list[i] = true
+			local globaloffsetdelta = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
+			local i = FindInTable(globaloffsetdelta, self.Values) or math.round(#self.Values/2)
+			list[i] = true
 			return list
-                end,
-                SaveSelections = function(self,list,player)
-                        for i,_ in ipairs(self.Values) do
-                                if list[i] == true then
-                                        GAMESTATE:Env()["NewOffset"] = _ 
-                                end
-                        end
-			PREFSMAN:SetPreference( "GlobalOffsetSeconds", GAMESTATE:Env()["NewOffset"] )
-			MESSAGEMAN:Broadcast("GlobalOffsetChanged")
-                end,
-        },
+		end,
+		SaveSelections = function(self,list,player)
+			if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
+			local globaloffset = ThemePrefs.Get( "DefaultGlobalOffsetSeconds" )
+			local gmods = SL.Global.ActiveModifiers
+			for i=1,#self.Values do
+				if list[i] then
+					gmods.GlobalOffsetDelta = tonumber( self.Values[i] )
+				PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
+			end
+		end
+	end,
+	},
 	-------------------------------------------------------------------------
 	Vocalization = {
 		Choices = function()

@@ -67,6 +67,7 @@ local GlobalDefaults = {
 			self.ActiveModifiers = {
 				MusicRate = 1.0,
 				WorstTimingWindow = 5,
+				GlobalOffsetDelta = 0,
 			}
 			self.Stages = {
 				PlayedThisGame = 0,
