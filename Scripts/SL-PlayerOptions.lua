@@ -394,7 +394,12 @@ local Overrides = {
 			local last 	= 30
 			local step 	= 1
 
-			return stringify( range(first, last, step), "%d ms")
+			local t = {}
+			for k, v in pairs(range(first, last, step)) do
+				form = v > 0 and "+%d ms" or "%d ms"
+				t[k] = string.format(form, v):gsub("^+0 ms$", "0 ms") -- float bad (this 0 is positive)
+			end
+			return t
 		end,
 		Values = function()
 			local first	= -0.03
@@ -412,23 +417,23 @@ local Overrides = {
 		ExportOnChange = true,
 		OneChoiceForAllPlayers = true,
 		LoadSelections = function(self,list)
-			local gnglobaloffset = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
-			local i = FindInTable(gnglobaloffset, self.Values) or math.round(#self.Values/2)
+			local globaloffsetdelta = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
+			local i = FindInTable(globaloffsetdelta, self.Values) or math.round(#self.Values/2)
 			list[i] = true
 			return list
-    end,
-    SaveSelections = function(self,list,player)
-      if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
+		end,
+		SaveSelections = function(self,list,player)
+			if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
 			local globaloffset = ThemePrefs.Get( "DefaultGlobalOffsetSeconds" )
 			local gmods = SL.Global.ActiveModifiers
 			for i=1,#self.Values do
 				if list[i] then
 					gmods.GlobalOffsetDelta = tonumber( self.Values[i] )
-					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
-				end
+				PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
 			end
-    end,
-  },
+		end
+	end,
+	},
 	-------------------------------------------------------------------------
 	Vocalization = {
 		Choices = function()
