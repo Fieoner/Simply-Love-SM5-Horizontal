@@ -387,8 +387,7 @@ local Overrides = {
 		end
 	},
 	-------------------------------------------------------------------------
-	GlobalOffsetDelta =
-        {
+	GlobalOffsetDelta = {
 		Choices = function()
 			local first	= -30
 			local last 	= 30
@@ -397,7 +396,7 @@ local Overrides = {
 			local t = {}
 			for k, v in pairs(range(first, last, step)) do
 				form = v > 0 and "+%d ms" or "%d ms"
-				t[k] = string.format(form, v):gsub("^+0 ms$", "0 ms") -- float bad (this 0 is positive)
+				t[k] = string.format(form, v):gsub("^+?0 ms$", "No Change")
 			end
 			return t
 		end,
@@ -406,33 +405,30 @@ local Overrides = {
 			local last 	= 0.03
 			local step 	= 0.001
 
-			-- stringify(range(first, last, step), "%g") causes 0 to display as a small exponential
-			-- so we have to use %.3f and remove trailing zeroes with gsub and a bit of magic (regexp)
 			local t = {}
 			for k, v in pairs(range(first, last, step)) do
-				t[k] = string.format("%.3f", v):gsub("%.?0+$", "")
+				t[k] = string.format("%.3f", v)
 			end
 			return t
 		end,
 		ExportOnChange = true,
 		OneChoiceForAllPlayers = true,
 		LoadSelections = function(self,list)
-			local globaloffsetdelta = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta):gsub("%.?0+$", "")
+			local globaloffsetdelta = string.format("%.3f", SL.Global.ActiveModifiers.GlobalOffsetDelta)
 			local i = FindInTable(globaloffsetdelta, self.Values) or math.round(#self.Values/2)
 			list[i] = true
 			return list
 		end,
 		SaveSelections = function(self,list,player)
-			if not GAMESTATE:Env()["OriginalOffset"] then GAMESTATE:Env()["OriginalOffset"] = string.format( "%.3f", PREFSMAN:GetPreference( "GlobalOffsetSeconds" ) ) end 
 			local globaloffset = ThemePrefs.Get( "DefaultGlobalOffsetSeconds" )
 			local gmods = SL.Global.ActiveModifiers
 			for i=1,#self.Values do
 				if list[i] then
 					gmods.GlobalOffsetDelta = tonumber( self.Values[i] )
-				PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
+					PREFSMAN:SetPreference( "GlobalOffsetSeconds", globaloffset + gmods.GlobalOffsetDelta )
+				end
 			end
-		end
-	end,
+		end,
 	},
 	-------------------------------------------------------------------------
 	Vocalization = {
