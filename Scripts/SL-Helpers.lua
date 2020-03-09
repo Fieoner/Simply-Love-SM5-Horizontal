@@ -644,3 +644,25 @@ GetGlobalOffsetDiffString = function()
 	if (diffMs > 0) then formattedDiff = "+" .. formattedDiff end
 	return formattedDiff
 end
+
+-- -----------------------------------------------------------------------
+-- Store the current global offset
+StoreCurrentGlobalOffset = function()
+	GAMESTATE:Env()["GlobalOffsetAtSongStart"] = PREFSMAN:GetPreference("GlobalOffsetSeconds")
+end
+
+-- -----------------------------------------------------------------------
+-- Update the default global offset in ThemePrefs.ini and the SL table with the current
+-- global offset if it was changed since the last time StoreCurrentGlobalOffset was called
+UpdateDefaultGlobalOffset = function()
+	if not GAMESTATE:Env()["GlobalOffsetAtSongStart"] then return end
+	offsetAtSongStart = GAMESTATE:Env()["GlobalOffsetAtSongStart"]
+	currentOffset = PREFSMAN:GetPreference("GlobalOffsetSeconds")
+	if currentOffset ~= offsetAtSongStart then
+		ThemePrefs.Set("DefaultGlobalOffsetSeconds", currentOffset)
+		ThemePrefs.Save()
+		SL.Global.DefaultGlobalOffsetSeconds = currentOffset
+		SM("Offset was "..offsetAtSongStart..". Now is "..currentOffset)
+	end
+	GAMESTATE:Env()["GlobalOffsetAtSongStart"] = nil
+end

@@ -101,8 +101,6 @@ local GlobalDefaults = {
 		ActiveColorIndex = ThemePrefs.Get("SimplyLoveColor") or 1,
 		-- Default Global Offset. Restore this value before every credit, to reset
 		-- the temporary offset chosen via Advanced Options.
-		-- TODO: Write to this option when offset is adjusted via F11/F12. That is
-		-- a trusted source of adjustment.
 		DefaultGlobalOffsetSeconds = ThemePrefs.Get("DefaultGlobalOffsetSeconds")
 	}
 }

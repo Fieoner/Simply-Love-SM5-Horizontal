@@ -1,6 +1,7 @@
 if not Branch then Branch = {} end
 
 SelectMusicOrCourse = function()
+	UpdateDefaultGlobalOffset()
 	if GAMESTATE:IsCourseMode() then
 		return "ScreenSelectCourse"
 	else
@@ -77,6 +78,7 @@ end
 
 
 Branch.AfterGameplay = function()
+	UpdateDefaultGlobalOffset()
 	if THEME:GetMetric("ScreenHeartEntry", "HeartEntryEnabled") then
 		local go_to_heart= false
 		for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
