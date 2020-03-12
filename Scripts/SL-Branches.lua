@@ -1,6 +1,8 @@
 if not Branch then Branch = {} end
 
 SelectMusicOrCourse = function()
+	-- Cancelling out of ScreenGameplay will run this so we need to check if the offset changed
+	-- during gameplay and update the default value. (See Scripts/SL-Helpers.lua)
 	UpdateDefaultGlobalOffset()
 	if GAMESTATE:IsCourseMode() then
 		return "ScreenSelectCourse"
@@ -78,6 +80,8 @@ end
 
 
 Branch.AfterGameplay = function()
+	-- We need to check if the offset changed during gameplay after each song and if it did
+	-- update the default value. (See Scripts/SL-Helpers.lua)
 	UpdateDefaultGlobalOffset()
 	if THEME:GetMetric("ScreenHeartEntry", "HeartEntryEnabled") then
 		local go_to_heart= false
