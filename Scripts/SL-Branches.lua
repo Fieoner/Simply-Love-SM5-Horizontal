@@ -1,9 +1,6 @@
 if not Branch then Branch = {} end
 
 SelectMusicOrCourse = function()
-	-- Cancelling out of ScreenGameplay will run this so we need to check if the offset changed
-	-- during gameplay and update the default value. (See Scripts/SL-Helpers.lua)
-	UpdateDefaultGlobalOffset()
 	if GAMESTATE:IsCourseMode() then
 		return "ScreenSelectCourse"
 	else
