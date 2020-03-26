@@ -5,8 +5,8 @@ local SongOrCourse, banner
 
 local t = Def.ActorFrame{
 	OnCommand=function(self)
-			self:zoom(0.4)
-			self:xy(83.5, 48)
+			self:zoom(0.645)
+			self:xy(_screen.cx, 69 - 1) -- Nice
 	end,
 
 	Def.ActorFrame{

@@ -30,7 +30,7 @@ end
 local t = Def.ActorFrame{
 
 	OnCommand=function(self)
-		self:xy(83.5, 92.5)
+		self:xy(_screen.cx - _screen.w/5, 133)
 	end,
 
 	-- ----------------------------------------
@@ -47,7 +47,7 @@ local t = Def.ActorFrame{
 		Def.Quad{
 			InitCommand=function(self)
 				self:diffuse(color("#1e282f"))
-					:zoomto( 167, 24 )
+					:zoomto( _screen.w, 24 ):x(_screen.w/5)
 
 				if ThemePrefs.Get("RainbowMode") then
 					self:diffusealpha(0.75)
@@ -111,14 +111,14 @@ local t = Def.ActorFrame{
 				Text=THEME:GetString("SongDescription", "Length"),
 				InitCommand=function(self)
 					self:horizalign(right)
-						:x(95):y(6):zoom(0.5)
+						:x(75):y(6):zoom(0.5)
 						:diffuse(0.5,0.5,0.5,1)
 				end
 			},
 
 			-- Song Duration Value
 			LoadFont("Common Normal")..{
-				InitCommand=function(self) self:horizalign(left):xy(95 + 5, 6):zoom(0.5) end,
+				InitCommand=function(self) self:horizalign(left):xy(75 + 5, 6):zoom(0.5) end,
 				SetCommand=function(self)
 					local duration
 
@@ -175,7 +175,7 @@ local t = Def.ActorFrame{
 		-- long/marathon version bubble graphic and text
 		Def.ActorFrame{
 			OnCommand=function(self)
-				self:x( 76 )
+				self:x( 56 )
 			end,
 			SetCommand=function(self)
 				local song = GAMESTATE:GetCurrentSong()
