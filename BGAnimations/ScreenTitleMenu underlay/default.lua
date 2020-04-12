@@ -1,3 +1,22 @@
+-- This is used by github.com/Fieoner/sm5-songs-twitchbot
+local f = RageFileUtil.CreateRageFile()
+if f:Open("Cache/AllSongs.txt", 2) then -- 2 = write
+	for i, song in ipairs(SONGMAN:GetAllSongs()) do
+		local group = song:GetGroupName()
+		local title = song:GetDisplayFullTitle()
+		local diffs = ""
+		for i, steps in ipairs(song:GetStepsByStepsType("StepsType_Dance_Single")) do
+			diffs = diffs..steps:GetMeter()..", "
+		end
+		diffs = diffs:sub(0,diffs:len()-2)
+		f:PutLine(group..";;"..title..";;"..diffs) -- song
+	end
+	f:Flush()
+	f:Close()
+end
+f:destroy()
+-- - - - - - - - - - - - - - - - - - - - -
+
 local TextColor = ThemePrefs.Get("RainbowMode") and Color.Black or Color.White
 
 local SongStats = SONGMAN:GetNumSongs() .. " songs in "
