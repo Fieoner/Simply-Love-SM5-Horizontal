@@ -35,12 +35,12 @@ local SL_CustomPrefs =
 	{
 		Default = "ITG",
 		Choices = {
-			THEME:GetString("ScreenSelectPlayMode", "ITG3"),
+			THEME:GetString("ScreenSelectPlayMode", "Gamer"),
 			THEME:GetString("ScreenSelectPlayMode", "ITG"),
 			THEME:GetString("ScreenSelectPlayMode", "FA+"),
 			THEME:GetString("ScreenSelectPlayMode", "StomperZ"),
 		},
-		Values 	= { "ITG3", "ITG", "FA+", "StomperZ" }
+		Values 	= { "Gamer", "ITG", "FA+", "StomperZ" }
 	},
 	AutoStyle =
 	{

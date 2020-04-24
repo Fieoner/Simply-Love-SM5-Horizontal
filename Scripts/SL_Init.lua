@@ -80,7 +80,7 @@ local GlobalDefaults = {
 				PlayerOptions3 = "ScreenGameplay",
 			}
 			self.ContinuesRemaining = ThemePrefs.Get("NumberOfContinuesAllowed") or 0
-			self.GameMode = ThemePrefs.Get("DefaultGameMode") or "ITG3"
+			self.GameMode = ThemePrefs.Get("DefaultGameMode") or "Gamer"
 			self.ScreenshotTexture = nil
 			self.MenuTimer = {
 				ScreenSelectMusic = ThemePrefs.Get("ScreenSelectMusicMenuTimer"),
@@ -131,7 +131,7 @@ SL = {
 			color("#c9855e"),	-- peach?
 			color("#ff0000")	-- red
 		},
-		ITG3 = {
+		Gamer = {
 			color("#21CCE8"),	-- blue
 			color("#e29c18"),	-- gold
 			color("#66c955"),	-- green
@@ -185,7 +185,7 @@ SL = {
 			TimingWindowSecondsMine=0.070000,
 			TimingWindowSecondsRoll=0.350000,
 		},
-		ITG3 = {
+		Gamer = {
 			TimingWindowAdd=0.0000,
 			RegenComboAfterMiss=5,
 			MaxRegenComboAfterMiss=5,
@@ -298,7 +298,7 @@ SL = {
 			LifePercentChangeHeld=0,
 			LifePercentChangeHitMine=0,
 		},
-		ITG3 = {
+		Gamer = {
 			PercentScoreWeightW1=10,
 			PercentScoreWeightW2=9,
 			PercentScoreWeightW3=6,
