@@ -26,24 +26,31 @@ local worst_window = SL.Preferences[SL.Global.GameMode]["TimingWindowSecondsW"..
 -- The sequence is important for the Scatter Plot, but irrelevant here; we are only really
 -- interested in how many +0.001 offsets were earned, how many -0.001, how many +0.002, etc.
 -- So, we loop through sequential_offsets, and tally offset counts into a new offsets table.
-local offsets = {}
-local val
 
-for t in ivalues(sequential_offsets) do
-	-- the first value in t is CurrentMusicSeconds when the offset occurred, which we don't need here
-	-- the second value in t is the offset value or the string "Miss"
-	val = t[2]
+getOffsets=function(arrow)
+	local offsets = {}
+	local val
 
-	if not string.find(val, "Miss.") then
-		val = (math.floor(val*1000))/1000
+	for t in ivalues(sequential_offsets) do
+		-- the first value in t is CurrentMusicSeconds when the offset occurred, which we don't need here
+		-- the second value in t is the offset value or the string "Miss"
+		if t[3] == arrow or arrow == 5 then
+			val = t[2]
 
-		if not offsets[val] then
-			offsets[val] = 1
-		else
-			offsets[val] = offsets[val] + 1
+			if not string.find(val, "Miss.") then
+				val = (math.floor(val*1000))/1000
+
+				if not offsets[val] then
+					offsets[val] = 1
+				else
+					offsets[val] = offsets[val] + 1
+				end
+			end
 		end
 	end
+	return offsets
 end
+local offsets = getOffsets(5)
 
 -- ---------------------------------------------
 -- Actors
@@ -51,8 +58,13 @@ end
 local pane = Def.ActorFrame{
 	Name="Pane4",
 	InitCommand=function(self)
+		self.arrow=5
 		self:visible(false)
 			:xy(-pane_width*0.5, pane_height*1.95)
+	end,
+	PrevArrowMessageCommand=function(self)
+		self.arrow = self.arrow > 1 and self.arrow -1 or 5
+		MESSAGEMAN:Broadcast("UpdateGraph", {offsets=getOffsets(self.arrow), arrow=self.arrow})
 	end
 }
 

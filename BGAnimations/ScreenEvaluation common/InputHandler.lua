@@ -32,6 +32,13 @@ return function(event)
 
 	if event.type == "InputEventType_FirstPress" and panes[pn] then
 
+		if event.GameButton == "MenuUp" or event.GameButton == "MenuDown" then
+			if event.GameButton == "MenuDown" then
+				MESSAGEMAN:Broadcast("NextArrow")
+			elseif event.GameButton == "MenuUp" then
+				MESSAGEMAN:Broadcast("PrevArrow")
+			end
+		end
 		if event.GameButton == "MenuRight" or event.GameButton == "MenuLeft" then
 			if event.GameButton == "MenuRight" then
 				active_pane[pn] = ((active_pane[pn] + 1) % #panes[pn])
