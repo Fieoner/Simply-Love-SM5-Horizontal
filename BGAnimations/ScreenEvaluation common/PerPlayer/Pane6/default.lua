@@ -50,7 +50,7 @@ or po:Wide() or po:Big() or po:Quick() or po:Skippy()
 or po:Echo() or po:Stomp() or po:BMRize()
 
 -- only show the QR code for FailTypes "Immediate" and "ImmediateContinue"
-or (po:FailSetting() ~= "FailType_Immediate" and po:FailSetting() ~= "FailType_ImmediateContinue")
+--COMMENTED FOR DEBUGGING PURPOSES: or (po:FailSetting() ~= "FailType_Immediate" and po:FailSetting() ~= "FailType_ImmediateContinue")
 then
 	return
 end
@@ -96,6 +96,12 @@ local qr_version = 2
 local url = ("http://www.groovestats.com/qr.php?h=%s&s=%s&f=%s&r=%s&v=%d"):format(hash, score, failed, rate, qr_version)
 
 -- ------------------------------------------
+
+f = RageFileUtil.CreateRageFile()
+f:Open(THEME:GetCurrentThemeDirectory()..'/qrurl', 2) -- 2 = write
+f:PutLine(url)
+f:Close()
+f:destroy()
 
 local pane = Def.ActorFrame{
 	Name="Pane6",
