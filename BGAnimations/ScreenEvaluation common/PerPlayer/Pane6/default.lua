@@ -96,12 +96,13 @@ local qr_version = 2
 local url = ("http://www.groovestats.com/qr.php?h=%s&s=%s&f=%s&r=%s&v=%d"):format(hash, score, failed, rate, qr_version)
 
 -- ------------------------------------------
-
-f = RageFileUtil.CreateRageFile()
-f:Open(THEME:GetCurrentThemeDirectory()..'/qrurl', 2) -- 2 = write
-f:PutLine(url)
-f:Close()
-f:destroy()
+if player == 'PlayerNumber_P2' then
+    f = RageFileUtil.CreateRageFile()
+    f:Open(THEME:GetCurrentThemeDirectory()..'/qrurl', 2) -- 2 = write
+    f:PutLine(url)
+    f:Close()
+    f:destroy()
+end
 
 local pane = Def.ActorFrame{
 	Name="Pane6",

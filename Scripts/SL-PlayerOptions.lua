@@ -410,6 +410,12 @@ local Overrides = {
 		Values = { "Standard", "Surround", "Vertical" },
 	},
 	-------------------------------------------------------------------------
+	HeartRateRate = {
+		Choices = { "I'm already warmed up", "Enabled" },
+        Values = { false, true },
+        OneChoiceForAllPlayers = true
+	},
+	-------------------------------------------------------------------------
 	ScreenAfterPlayerOptions = {
 		Values = function()
 			local choices = { "Gameplay", "Select Music", "Options2", "Options3"  }
