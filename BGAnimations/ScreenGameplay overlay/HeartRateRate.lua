@@ -1,5 +1,7 @@
 if not SL.Global.ActiveModifiers.HeartRateRate then return end
 
+local hrmod = 1.2
+
 return Def.Actor{
     OnCommand=function(self)
         self:sleep(.5)
@@ -13,8 +15,8 @@ return Def.Actor{
         f:destroy()
 
         local heartrate = tonumber(hrstring:match("%d+"))
-        bpm = GAMESTATE:GetSongPosition():GetCurBPS() * 60
-        GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate( heartrate / bpm )
+        bpm = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
+        GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate( heartrate * hrmod / bpm )
         self:sleep(.5)
         self:queuecommand("UpdateHr")
     end

@@ -3,7 +3,7 @@ local player = ...
 local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 local TapNoteScores = {
 	Names = { 'W1', 'W2', 'W3', 'W4', 'W5', 'Miss', 'HitMine', 'None' },
-	Scores = { 3, 2, 1, 0, 0, -1, -1, 0 }
+	Scores = { 3, 2, 1, 0, 0, 0, -1, 0 }
 }
 local HoldNoteScores = {
 	Names = { 'LetGo', 'Held', 'MissedHold', 'None' },
@@ -28,20 +28,21 @@ totaltaps = stats:GetRadarPossible():GetValue("RadarCategory_TapsAndHolds")
 maxdp = totaltaps * TapNoteScores.Scores[1]
 
 local PercentFTFA = dp / maxdp
-local PercentDP = stats:GetPercentDancePoints()
 local percent = FormatPercentScore(PercentFTFA)
+local bofaScore = dp.."/"..maxdp.."\n"..dp-maxdp
 -- Format the Percentage string, removing the % symbol
 percent = percent:gsub("%%", "")
 
 local t = Def.ActorFrame{
 	OnCommand=function(self)
-		self:y( 65 )
-		self:x( (player == PLAYER_1 and -190) or 60 )
+		self:y( 120 )
+		self:x( (player == PLAYER_1 and -190) or 110 )
 	end,
-	LoadFont("_wendy white")..{
-		Text="FTFA SCORE: "..percent,
+	LoadFont("_wendy small")..{
+		--Text="FTFA SCORE: "..percent,
+		Text="BOFA: "..bofaScore,
 		Name="ExScore",
-		InitCommand=cmd(vertalign, middle; horizalign, center; zoom,0.2 ),
+		InitCommand=cmd(vertalign, middle; horizalign, center; zoom,0.4 ),
 		OnCommand=cmd(x, 70)
 	}
 }

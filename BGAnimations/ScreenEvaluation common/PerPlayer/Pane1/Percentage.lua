@@ -3,6 +3,21 @@ local player = ...
 local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 local PercentDP = stats:GetPercentDancePoints()
 local percent = FormatPercentScore(PercentDP)
+
+local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
+local TapNoteScores = {
+	Types = { 'W1', 'W2', 'W3', 'W4', 'W5', 'Miss' },
+	Weights = { 3, 2, 1, 0, 0, 0 },
+}
+local points = 0
+local bofaPoints = function()
+	for i=1,#TapNoteScores.Types do
+		local window = TapNoteScores.Types[i]
+		local number = pss:GetTapNoteScores( "TapNoteScore_"..window )
+		points = points + number * TapNoteScores.Weights[i]
+	end
+end
+
 -- Format the Percentage string, removing the % symbol
 percent = percent:gsub("%%", "")
 
@@ -28,5 +43,17 @@ return Def.ActorFrame{
 			self:horizalign(right):zoom(0.585)
 			self:x( (player == PLAYER_1 and 1.5 or 141))
 		end
-	}
+	},
+	
+	 -- bofa score
+	 LoadFont("_wendy white")..{
+		 Name="ECFA2021",
+		 Text="",
+		 InitCommand = function(self)
+			 self:vertalign(middle):horizalign(right):zoom(0.38):x(40)
+			 score = bofaPoints()
+			 self:settext("asdf"..score)
+		 end
+	 },
+
 }
