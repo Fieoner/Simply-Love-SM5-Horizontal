@@ -12,6 +12,8 @@ local t = Def.ActorFrame{
 	LoadActor("./MenuTimer.lua"),
 	-- Apply player modifiers from profile
 	LoadActor("./PlayerModifiers.lua"),
+	-- The best functionality in the theme
+	LoadActor("./SongSearch.lua"),
 
 	-- ---------------------------------------------------
 	-- next, load visual elements; the order of the layers matters for most of these
@@ -25,10 +27,12 @@ local t = Def.ActorFrame{
 	-- grid of Difficulty Blocks (normal) or CourseContentsList (CourseMode)
 	LoadActor("./StepsDisplayList/default.lua"),
 	-- elements we need two of that draw over the StepsDisplayList (just the bouncing cursors, really)
-	LoadActor("./PerPlayer/Over.lua"),
 
 	-- Graphical Banner
 	LoadActor("./Banner.lua"),
+
+	LoadActor("./PerPlayer/Over.lua"),
+
 	-- Song Artist, BPM, Duration (Referred to in other themes as "PaneDisplay")
 	LoadActor("./SongDescription.lua"),
 

@@ -6,6 +6,9 @@ local t = Def.ActorFrame{}
 for player in ivalues( PlayerNumber ) do
 	-- bouncing cursor inside the grid of difficulty blocks
 	t[#t+1] = LoadActor("./Cursor.lua", player)
+
+	-- Density graph
+	t[#t+1] = LoadActor("./DensityGraph.lua", player)
 end
 
 return t
