@@ -60,6 +60,13 @@ local qrcode_size = 168
 
 -- ------------------------------------------
 
+-- TODO: delete this when the thing releases
+f = RageFileUtil.CreateRageFile()
+f:Open(THEME:GetCurrentThemeDirectory()..'/qrurl', 2) -- 2 = write
+f:PutLine(url)
+f:Close()
+f:destroy()
+
 local pane = Def.ActorFrame{
 	InitCommand=function(self) self:xy(-140, 222) end,
 	PaneSwitchCommand=function(self)
