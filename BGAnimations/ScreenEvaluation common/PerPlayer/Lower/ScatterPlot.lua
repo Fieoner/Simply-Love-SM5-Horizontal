@@ -8,6 +8,9 @@ local player = args.player
 local GraphWidth = args.GraphWidth
 local GraphHeight = args.GraphHeight
 
+local NumOfButtons = 4 -- TODO: This should not be hardcoded to 4
+local MissHeight = GraphHeight / NumOfButtons
+
 -- sequential_offsets gathered in ./BGAnimations/ScreenGameplay overlay/JudgmentOffsetTracking.lua
 local sequential_offsets = SL[ToEnumShortString(player)].Stages.Stats[SL.Global.Stages.PlayedThisGame + 1].sequential_offsets
 
@@ -49,7 +52,7 @@ for t in ivalues(sequential_offsets) do
 	CurrentSecond = t[1]
 	Offset = t[2]
 
-	if Offset ~= "Miss" then
+	if not string.find(Offset, "Miss.") then
 		CurrentSecond = CurrentSecond - Offset
 	else
 		CurrentSecond = CurrentSecond - worst_window
@@ -58,8 +61,16 @@ for t in ivalues(sequential_offsets) do
 	-- pad the right end because the time measured seems to lag a little...
 	x = scale(CurrentSecond, FirstSecond, TotalSeconds + 0.05, 0, GraphWidth)
 
-	if Offset ~= "Miss" then
-		-- DetermineTimingWindow() is defined in ./Scripts/SL-Helpers.lua
+	if string.find(Offset,"Miss.") then
+		-- A miss should be a quadrilateral that is the height of the entire graph/No. of buttons and red
+		y0 = GraphHeight - string.sub(Offset,-1) * MissHeight
+		y1 = y0 + MissHeight
+		table.insert( verts, {{x, y0, 0}, color("#ff000077")} )
+		table.insert( verts, {{x+1, y0, 0}, color("#ff000077")} )
+		table.insert( verts, {{x+1, y1, 0}, color("#ff000077")} )
+		table.insert( verts, {{x, y1, 0}, color("#ff000077")} )
+	else
+		-- else, determineTimingWindow() is defined in ./Scripts/SL-Helpers.lua
 		TimingWindow = DetermineTimingWindow(Offset)
 		y = scale(Offset, worst_window, -worst_window, 0, GraphHeight)
 
@@ -76,12 +87,6 @@ for t in ivalues(sequential_offsets) do
 		table.insert( verts, {{x+1.5,y,0}, {r,g,b,0.666}} )
 		table.insert( verts, {{x+1.5,y+1.5,0}, {r,g,b,0.666}} )
 		table.insert( verts, {{x,y+1.5,0}, {r,g,b,0.666}} )
-	else
-		-- else, a miss should be a quadrilateral that is the height of the entire graph and red
-		table.insert( verts, {{x, 0, 0}, color("#ff000077")} )
-		table.insert( verts, {{x+1, 0, 0}, color("#ff000077")} )
-		table.insert( verts, {{x+1, GraphHeight, 0}, color("#ff000077")} )
-		table.insert( verts, {{x, GraphHeight, 0}, color("#ff000077")} )
 	end
 end
 

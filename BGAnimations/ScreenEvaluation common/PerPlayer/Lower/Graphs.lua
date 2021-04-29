@@ -24,6 +24,7 @@ return Def.ActorFrame{
 	},
 
 	LoadActor("./ScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
+	LoadActor("./ArrowsScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} ),
 
 	-- The GraphDisplay provided by the engine provides us a solid color histogram detailing
 	-- the player's lifemeter during gameplay capped by a white line.
