@@ -1,3 +1,5 @@
+if GAMESTATE:IsCourseMode() then return end -- TODO: make this work on course mode
+
 local player = ...
 local pn = ToEnumShortString(player)
 local p = PlayerNumber:Reverse()[player]
