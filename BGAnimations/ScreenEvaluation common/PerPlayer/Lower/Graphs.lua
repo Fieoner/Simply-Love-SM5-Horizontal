@@ -41,6 +41,7 @@ if not GAMESTATE:IsCourseMode() then
 end
 
 af[#af+1] = LoadActor("./ScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} )
+af[#af+1] = LoadActor("./ArrowsScatterPlot.lua", {player=player, GraphWidth=GraphWidth, GraphHeight=GraphHeight} )
 
 -- The GraphDisplay provided by the engine provides us a solid color histogram detailing
 -- the player's lifemeter during gameplay capped by a white line.
@@ -151,7 +152,7 @@ if storage.DeathSecond ~= nil then
 				else
 					-- format to display as M:SS
 					text = SecondsToMSS(secondsLeft)
-				end	
+				end
 				if deathMeasures then text = text .. "\n" .. deathMeasures self:addy(-10) end
 				self:settext(text)
 				local width = self:GetWidth() * 0.65
@@ -160,7 +161,7 @@ if storage.DeathSecond ~= nil then
 				quad:playcommand("SetSize", { width=width, addx=addx, lines=(deathMeasures ~= nil and 2 or 1) })
 				self:addx(addx)
 			end
-		}	
+		}
 	}
 end
 

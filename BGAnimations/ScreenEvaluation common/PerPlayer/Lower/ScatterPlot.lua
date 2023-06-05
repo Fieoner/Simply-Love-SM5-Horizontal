@@ -9,6 +9,7 @@ local pn = ToEnumShortString(player)
 local GraphWidth = args.GraphWidth
 local GraphHeight = args.GraphHeight
 local mods = SL[pn].ActiveModifiers
+local MissHeight = GraphHeight / 4
 
 local pn = ToEnumShortString(player)
 
@@ -49,16 +50,26 @@ for t in ivalues(sequential_offsets) do
 	CurrentSecond = t[1]
 	Offset = t[2]
 
-	if Offset ~= "Miss" then
-		CurrentSecond = CurrentSecond - Offset
-	else
+	if string.find(Offset, "Miss-") then
 		CurrentSecond = CurrentSecond - worst_window
+	else
+		CurrentSecond = CurrentSecond - Offset
 	end
 
 	-- pad the right end because the time measured seems to lag a little...
 	x = scale(CurrentSecond, FirstSecond, LastSecond + 0.05, 0, GraphWidth)
 
-	if Offset ~= "Miss" then
+	if string.find(Offset, "Miss-") then
+		-- iterate over the arrow indexes that were missed
+		for col_idx in string.gmatch(Offset, "%d") do
+			y = GraphHeight - col_idx * MissHeight
+			-- A miss should be a quadrilateral that is 1/4 the height of the entire graph and red
+			table.insert( verts, {{x, y, 0}, color("#ff000077")} )
+			table.insert( verts, {{x+1, y, 0}, color("#ff000077")} )
+			table.insert( verts, {{x+1, y+MissHeight, 0}, color("#ff000077")} )
+			table.insert( verts, {{x, y+MissHeight, 0}, color("#ff000077")} )
+		end
+	else
 		-- DetermineTimingWindow() is defined in ./Scripts/SL-Helpers.lua
 		TimingWindow = DetermineTimingWindow(Offset)
 		y = scale(Offset, worst_window, -worst_window, 0, GraphHeight)
@@ -84,12 +95,6 @@ for t in ivalues(sequential_offsets) do
 		table.insert( verts, {{x+1.5,y,0}, {r,g,b,0.666}} )
 		table.insert( verts, {{x+1.5,y+1.5,0}, {r,g,b,0.666}} )
 		table.insert( verts, {{x,y+1.5,0}, {r,g,b,0.666}} )
-	else
-		-- else, a miss should be a quadrilateral that is the height of the entire graph and red
-		table.insert( verts, {{x, 0, 0}, color("#ff000077")} )
-		table.insert( verts, {{x+1, 0, 0}, color("#ff000077")} )
-		table.insert( verts, {{x+1, GraphHeight, 0}, color("#ff000077")} )
-		table.insert( verts, {{x, GraphHeight, 0}, color("#ff000077")} )
 	end
 end
 

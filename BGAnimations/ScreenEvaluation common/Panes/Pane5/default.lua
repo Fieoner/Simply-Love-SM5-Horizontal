@@ -51,7 +51,7 @@ for t in ivalues(sequential_offsets) do
 	-- the second value in t is the offset value or the string "Miss"
 	local val = t[2]
 
-	if val ~= "Miss" then
+	if not string.match(val, "Miss-") then
 		count = count + 1
 
 		-- check if this is the highest error amount
