@@ -37,6 +37,14 @@ end
 
 ------------------------------------------------------------
 
+Branch.ToGameplay = function()
+	if ThemePrefs.Get("EnableITGOnline") == "Always" then
+		return "ScreenGameplayWaiting"
+	end
+
+	return Branch.GameplayScreen()
+end
+
 if not Branch then Branch = {} end
 
 Branch.AfterScreenRankingDouble = function()
@@ -181,14 +189,7 @@ Branch.AfterSelectMusic = function()
 	if SCREENMAN:GetTopScreen():GetGoToOptions() then
 		return "ScreenPlayerOptions"
 	else
-		-- routine mode specifically uses ScreenGameplayShared
-		local style = GAMESTATE:GetCurrentStyle():GetName()
-		if style == "routine" then
-			return "ScreenGameplayShared"
-		end
-
-		-- while everything else (single, versus, double, etc.) uses ScreenGameplay
-		return "ScreenGameplay"
+		return Branch.ToGameplay()
 	end
 end
 

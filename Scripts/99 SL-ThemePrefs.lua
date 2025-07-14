@@ -296,6 +296,11 @@ SL_CustomPrefs.Get = function()
 			Values  = { true, false }
 		},
 
+		EnableITGOnline = {
+			Default = "No",
+			Choices =  { THEME:GetString("ThemePrefs","Yes"), THEME:GetString("ThemePrefs","Always"), THEME:GetString("ThemePrefs", "No") }
+		},
+
 		ScoringSystem = {
 			Default = "EX",
 			Choices  = { "EX", "ITG" }

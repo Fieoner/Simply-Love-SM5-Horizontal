@@ -779,18 +779,20 @@ local Overrides = {
 	-------------------------------------------------------------------------
 	ScreenAfterPlayerOptions = {
 		Values = function()
-			local choices = { "Gameplay", "Select Music", "Options2", "Options3"  }
+			local choices = { "Gameplay", "Select Music", "Options2", "Options3", "Online"  }
+			if not SYNCMAN:IsReady() or ThemePrefs.Get("EnableITGOnline") ~= "Yes" then table.remove(choices, 5) end
 			if SL.Global.MenuTimer.ScreenSelectMusic < 1 then table.remove(choices, 2) end
 			return choices
 		end,
 		OneChoiceForAllPlayers = true,
 		SaveSelections = function(self, list, pn)
-			if list[1] then SL.Global.ScreenAfter.PlayerOptions = Branch.GameplayScreen() end
+			if list[1] then SL.Global.ScreenAfter.PlayerOptions = Branch.ToGameplay() end
 
 			if SL.Global.MenuTimer.ScreenSelectMusic > 1 then
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions = SelectMusicOrCourse() end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions = "ScreenPlayerOptions2" end
 				if list[4] then SL.Global.ScreenAfter.PlayerOptions = "ScreenPlayerOptions3" end
+				if list[5] then SL.Global.ScreenAfter.PlayerOptions = "ScreenGameplayWaiting" end
 			else
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions = "ScreenPlayerOptions2" end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions = "ScreenPlayerOptions3" end
@@ -800,18 +802,20 @@ local Overrides = {
 	-------------------------------------------------------------------------
 	ScreenAfterPlayerOptions2 = {
 		Values = function()
-			local choices = { "Gameplay", "Select Music", "Options1", "Options3"  }
+			local choices = { "Gameplay", "Select Music", "Options1", "Options3", "Online"  }
+			if not SYNCMAN:IsReady() or ThemePrefs.Get("EnableITGOnline") ~= "Yes" then table.remove(choices, 5) end
 			if SL.Global.MenuTimer.ScreenSelectMusic < 1 then table.remove(choices, 2) end
 			return choices
 		end,
 		OneChoiceForAllPlayers = true,
 		SaveSelections = function(self, list, pn)
-			if list[1] then SL.Global.ScreenAfter.PlayerOptions2 = Branch.GameplayScreen() end
+			if list[1] then SL.Global.ScreenAfter.PlayerOptions2 = Branch.ToGameplay() end
 
 			if SL.Global.MenuTimer.ScreenSelectMusic > 1 then
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions2 = SelectMusicOrCourse() end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions" end
 				if list[4] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions3" end
+				if list[5] then SL.Global.ScreenAfter.PlayerOptions = "ScreenGameplayWaiting" end
 			else
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions" end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions3" end
@@ -822,18 +826,20 @@ local Overrides = {
 	-- this is so dumb; I need to find time to completely rewrite ScreenPlayerOptions :(
 	ScreenAfterPlayerOptions3 = {
 		Values = function()
-			local choices = { "Gameplay", "Select Music", "Options1", "Options2"  }
+			local choices = { "Gameplay", "Select Music", "Options1", "Options2", "Online"  }
+			if not SYNCMAN:IsReady() or ThemePrefs.Get("EnableITGOnline") ~= "Yes" then table.remove(choices, 5) end
 			if SL.Global.MenuTimer.ScreenSelectMusic < 1 then table.remove(choices, 2) end
 			return choices
 		end,
 		OneChoiceForAllPlayers = true,
 		SaveSelections = function(self, list, pn)
-			if list[1] then SL.Global.ScreenAfter.PlayerOptions3 = Branch.GameplayScreen() end
+			if list[1] then SL.Global.ScreenAfter.PlayerOptions3 = Branch.ToGameplay() end
 
 			if SL.Global.MenuTimer.ScreenSelectMusic > 1 then
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions3 = SelectMusicOrCourse() end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions" end
 				if list[4] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions2" end
+				if list[5] then SL.Global.ScreenAfter.PlayerOptions = "ScreenGameplayWaiting" end
 			else
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions" end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions2" end

@@ -265,6 +265,7 @@ local NewSessionRequestProcessor = function(res, gsInfo)
 	if gsInfo == nil then return end
 	
 	local groovestats = gsInfo:GetChild("GrooveStats")
+
 	local service1 = gsInfo:GetChild("Service1")
 	local service2 = gsInfo:GetChild("Service2")
 	local service3 = gsInfo:GetChild("Service3")
@@ -437,6 +438,32 @@ t[#t+1] = Def.ActorFrame{
 		ResetCommand=function(self)
 			self:visible(ThemePrefs.Get("EnableGrooveStats"))
 			self:settext("     GrooveStats")
+		end
+	},
+
+	LoadFont("Common Normal")..{
+		Name="ITGOnline",
+		Text="     ITGnOline",
+		InitCommand=function(self)
+			self:visible(SYNCMAN:IsEnabled()):addy(36):horizalign(left)
+			self:horizalign(left)
+			DiffuseText(self)
+		end,
+		VisualStyleSelectedMessageCommand=function(self) DiffuseText(self) end,
+		ResetCommand=function(self)
+			self:visible(SYNCMAN:IsEnabled())
+			if SYNCMAN:IsReady() then
+				self:settext("✔ ITG Online")
+			else
+				self:settext("❌ ITG Online")
+				SYNCMAN:WS()
+			end
+		end,
+		SyncStartConnectedMessageCommand=function(self)
+			self:queuecommand("Reset")
+		end,
+		SyncStartDisconnectedMessageCommand=function(self)
+			self:queuecommand("Reset")
 		end
 	},
 
