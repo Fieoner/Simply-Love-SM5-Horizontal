@@ -18,5 +18,6 @@ af[#af+1] = LoadActor("./../ScreenEvaluation common/Shared/TitleAndBanner.lua")
 af[#af+1] = LoadActor("./../ScreenEvaluation common/Shared/SongFeatures.lua")
 
 af[#af+1] = LoadActor("./PlayerList.lua")
+af[#af+1] = LoadActor("./ReadyBanner.lua")
 
 return af
