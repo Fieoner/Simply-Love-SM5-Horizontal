@@ -56,7 +56,6 @@ for i = 1, MAX_PLAYER_COUNT do
                 self:settext(" - " .. player.name)
                 self:visible(true)
             else
-                self:settext("")
                 self:visible(false)
             end
         end
@@ -81,13 +80,12 @@ for i = 1, MAX_PLAYER_COUNT do
 
             if #players >= self.playerIndex then
                 local player = players[self.playerIndex]
-                if player.ready then
+                if player.ready == true then
                     self:visible(true)
                 else
                     self:visible(false)
                 end
             else
-                self:settext("")
                 self:visible(false)
             end
         end

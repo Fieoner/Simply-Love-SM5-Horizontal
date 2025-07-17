@@ -8,6 +8,56 @@ SYNCMAN = {
     playerReady = false
 }
 
+function SYNCMAN:WS()
+    if not SYNCMAN.ws then
+        SYNCMAN.ws = NETWORK:WebSocket{
+            -- url="ws://192.168.2.33:8765",
+            url="ws://itgonline.electromuis.nl",
+            handshakeTimeout=3,
+            pingInterval=5,
+            automaticReconnect=true,
+            sendThreaded=true,
+            onMessage=function(msg)
+                -- SM(msg)
+                local msgType = ToEnumShortString(msg.type)
+
+                if msgType == "Message" then
+                    local decoded = JsonDecode(msg.data)
+                    if decoded then
+                        if decoded.action == "scores" then
+                            SYNCMAN.scores = decoded.scores
+                            MESSAGEMAN:Broadcast("SyncStartPlayerScoresChanged")
+                        elseif decoded.action == "players" then
+                            SYNCMAN.players = decoded.players
+                            MESSAGEMAN:Broadcast("SyncStartPlayersChanged")
+                        elseif decoded.action == "rooms" then
+                            SYNCMAN.rooms = decoded.rooms
+                            MESSAGEMAN:Broadcast("SyncStartRoomsChanged")
+                        elseif decoded.action == "start" then
+                            MESSAGEMAN:Broadcast("SyncStartStart")
+                        elseif decoded.action == "start_sync" then
+                            MESSAGEMAN:Broadcast("SyncStartStartSync")
+                        else
+                            Trace(JsonEncode(decoded))
+                        end
+                    end
+                elseif msgType == "Open" then
+                    SYNCMAN.wsReady = true
+                    MESSAGEMAN:Broadcast("SyncStartConnected")
+                elseif msgType == "Close" then
+                    SYNCMAN.wsReady = false
+                    MESSAGEMAN:Broadcast("SyncStartDisconnected")
+                    Trace("WebSocket closed: " .. msg.reason)
+                else
+                    Trace(JsonEncode(msg))
+                end
+            end,
+        }
+    end
+
+    return SYNCMAN.ws
+end
+
 function SYNCMAN:IsInGame()
     if not SYNCMAN:IsReady() then
         return false
@@ -54,53 +104,6 @@ end
 
 function SYNCMAN:SongID(song)
     return song:GetMainTitle()
-end
-
-function SYNCMAN:WS()
-    if not SYNCMAN.ws then
-        SYNCMAN.ws = NETWORK:WebSocket{
-            -- url="ws://192.168.2.33:8765",
-            url="ws://itgonline.electromuis.nl",
-            handshakeTimeout=3,
-            pingInterval=5,
-            automaticReconnect=true,
-            sendThreaded=true,
-            onMessage=function(msg)
-                local msgType = ToEnumShortString(msg.type)
-
-                if msgType == "Message" then
-                    local decoded = JsonDecode(msg.data)
-                    if decoded then
-                        if decoded.action == "scores" then
-                            SYNCMAN.scores = decoded.scores
-                            MESSAGEMAN:Broadcast("SyncStartPlayerScoresChanged")
-                        elseif decoded.action == "players" then
-                            SYNCMAN.players = decoded.players
-                            MESSAGEMAN:Broadcast("SyncStartPlayersChanged")
-                        elseif decoded.action == "rooms" then
-                            SYNCMAN.rooms = decoded.rooms
-                            MESSAGEMAN:Broadcast("SyncStartRoomsChanged")
-                        elseif decoded.action == "start" then
-                            MESSAGEMAN:Broadcast("SyncStartStart")
-                        else
-                            Trace(JsonEncode(decoded))
-                        end
-                    end
-                elseif msgType == "Open" then
-                    SYNCMAN.wsReady = true
-                    MESSAGEMAN:Broadcast("SyncStartConnected")
-                elseif msgType == "Close" then
-                    SYNCMAN.wsReady = false
-                    MESSAGEMAN:Broadcast("SyncStartDisconnected")
-                    Trace("WebSocket closed: " .. msg.reason)
-                else
-                    Trace(JsonEncode(msg))
-                end
-            end,
-        }
-    end
-
-    return SYNCMAN.ws
 end
 
 function SYNCMAN:RoomActive(song)

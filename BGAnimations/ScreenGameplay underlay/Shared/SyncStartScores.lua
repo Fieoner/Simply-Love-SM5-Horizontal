@@ -17,15 +17,21 @@ local t = Def.ActorFrame{
             if GAMESTATE:IsHumanPlayer(player) then
                 local playerName = PROFILEMAN:GetPlayerName(player)
 
-                SYNCMAN:Send({
-                    action = "score",
-                    name = playerName,
-                    score = "0.00",
-                    health = 1.0,
-                    failed = false
-                })
+                -- SYNCMAN:Send({
+                --     action = "score",
+                --     name = playerName,
+                --     score = "0.00",
+                --     health = 1.0,
+                --     failed = false
+                -- })
             end
         end
+
+        SCREENMAN:GetTopScreen():PauseGame(true)
+    end,
+
+    SyncStartStartSyncMessageCommand=function(self)
+        SCREENMAN:GetTopScreen():PauseGame(false)
     end,
 
     JudgmentMessageCommand = function(self, params)
