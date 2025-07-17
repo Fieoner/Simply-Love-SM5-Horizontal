@@ -4,7 +4,8 @@ SYNCMAN = {
     rooms = {},
     ws = nil,
     wsReady = false,
-    inGame = false
+    inGame = false,
+    playerReady = false
 }
 
 function SYNCMAN:IsInGame()
@@ -158,6 +159,7 @@ function SYNCMAN:Reset()
     SYNCMAN.scores = {}
     SYNCMAN.players = {}
     SYNCMAN.inGame = false
+    SYNCMAN.playerReady = false
     SYNCMAN:Send({
         action = "leave"
     })
@@ -166,7 +168,7 @@ end
 function SYNCMAN:GetSyncOptionRow()
     return {
 		Name = "SyncOption",
-		Choices = {"Play", "Back"},
+		Choices = {"Ready", "Play", "Back"},
 		LayoutType = "ShowAllInRow",
 		SelectType = "SelectOne",
 		OneChoiceForAllPlayers = true,
@@ -179,12 +181,20 @@ function SYNCMAN:GetSyncOptionRow()
             local top_screen = SCREENMAN:GetTopScreen()
 
             if list[1] == true then
+                SYNCMAN.playerReady = not SYNCMAN.playerReady
+                SYNCMAN:Send({
+                    action = "ready",
+                    ready = SYNCMAN.playerReady
+                })
+            end
+
+            if list[2] == true then
                 SYNCMAN:Send({
                     action = "start"
                 })
             end
 
-            if list[2] == true then
+            if list[3] == true then
                 local prev_screen_name = top_screen:GetPrevScreenName()
                 top_screen:SetNextScreenName(prev_screen_name):StartTransitioningScreen("SM_GoToNextScreen")
             end

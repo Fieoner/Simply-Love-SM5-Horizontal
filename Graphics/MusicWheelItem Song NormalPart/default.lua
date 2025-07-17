@@ -20,11 +20,11 @@ af[#af+1] = Def.Sprite{
 }
 
 af[#af+1] = LoadFont("Common Normal")..{
-	Text="✔",
+	Text="🌍",
 	InitCommand=function(self)
 		self:visible(false)
 		self:horizalign(left)
-		self:x(-40)
+		self:x(SCREEN_CENTER_X-90)
 		self.mySong	= nil
 	end,
 	UpdateShowCommand=function(self)

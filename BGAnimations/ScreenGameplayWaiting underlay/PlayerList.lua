@@ -1,9 +1,10 @@
 local Font = "Common Normal"
 
-local MAX_PLAYER_COUNT = 10
+local MAX_PLAYER_COUNT = 8
 
 local yPos = SCREEN_HEIGHT*0.85
-local boxHeight = 20 * MAX_PLAYER_COUNT
+local rowHeight = 22
+local boxHeight = rowHeight * MAX_PLAYER_COUNT
 
 local af = Def.ActorFrame {
     InitCommand=function(self)
@@ -14,13 +15,15 @@ local af = Def.ActorFrame {
     end
 }
 
+
+
 for i = 1, MAX_PLAYER_COUNT do
-    local playerIndex = MAX_PLAYER_COUNT - i + 1
+    local playerIndex = i
 
     af[#af+1] = Def.Quad {
         InitCommand=function(self)
-            self:zoomto(200, 20)
-            self:y((i - 1) * 20 - boxHeight)
+            self:zoomto(200, rowHeight)
+            self:y(((i - 1) * rowHeight) - boxHeight)
             self:halign(0.5)
             if i % 2 == 0 then
                 self:diffuse(Color.White):diffusealpha(0.4)
@@ -35,11 +38,12 @@ for i = 1, MAX_PLAYER_COUNT do
         Text="",
         InitCommand=function(self)
             self:valign(0.5)
-            self:y(i * 20 - boxHeight * 2)
-            self:x(-10)
-            self:halign(1)
+            self:y(((i - 1) * rowHeight) - boxHeight)
+            self:x(-100)
+            self:halign(0)
             self:diffuse(Color.White)
             self:visible(false)
+            self.playerIndex = playerIndex
         end,
         OnCommand=function(self)
             self:queuecommand("SyncStartPlayersChangedMessageCommand")
@@ -47,10 +51,41 @@ for i = 1, MAX_PLAYER_COUNT do
         SyncStartPlayersChangedMessageCommand=function(self)
             local players = SYNCMAN:GetCurrentPlayers()
 
-            if #players >= playerIndex then
-                local player = players[playerIndex]
-                self:settext(" - " .. player)
+            if #players >= self.playerIndex then
+                local player = players[self.playerIndex]
+                self:settext(" - " .. player.name)
                 self:visible(true)
+            else
+                self:settext("")
+                self:visible(false)
+            end
+        end
+    }
+
+    af[#af+1] = Def.BitmapText {
+        Font=Font,
+        Text="✔",
+        InitCommand=function(self)
+            self:valign(0.5)
+            self:y(((i - 1) * rowHeight) - boxHeight)
+            self:x(100)
+            self:halign(1)
+            self:visible(false)
+            self.playerIndex = playerIndex
+        end,
+        OnCommand=function(self)
+            self:queuecommand("SyncStartPlayersChangedMessageCommand")
+        end,
+        SyncStartPlayersChangedMessageCommand=function(self)
+            local players = SYNCMAN:GetCurrentPlayers()
+
+            if #players >= self.playerIndex then
+                local player = players[self.playerIndex]
+                if player.ready then
+                    self:visible(true)
+                else
+                    self:visible(false)
+                end
             else
                 self:settext("")
                 self:visible(false)

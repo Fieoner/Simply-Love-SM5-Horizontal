@@ -815,7 +815,7 @@ local Overrides = {
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions2 = SelectMusicOrCourse() end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions" end
 				if list[4] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions3" end
-				if list[5] then SL.Global.ScreenAfter.PlayerOptions = "ScreenGameplayWaiting" end
+				if list[5] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenGameplayWaiting" end
 			else
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions" end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions2 = "ScreenPlayerOptions3" end
@@ -839,7 +839,7 @@ local Overrides = {
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions3 = SelectMusicOrCourse() end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions" end
 				if list[4] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions2" end
-				if list[5] then SL.Global.ScreenAfter.PlayerOptions = "ScreenGameplayWaiting" end
+				if list[5] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenGameplayWaiting" end
 			else
 				if list[2] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions" end
 				if list[3] then SL.Global.ScreenAfter.PlayerOptions3 = "ScreenPlayerOptions2" end
