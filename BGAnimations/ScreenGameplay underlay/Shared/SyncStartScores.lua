@@ -29,25 +29,17 @@ local t = Def.ActorFrame{
             end
         end
 
-        -- if SYNCMAN.startAt > 0 then
-        --     local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
-        --     SM(startDelay)
-        --     self:sleep(startDelay):queuecommand("DoStart")
-        -- else
-        --     self:queuecommand("DoStart")
-        -- end
-
-        self:queuecommand("DoStart")
-    end,
-
-    DoStartCommand=function(self)
-        while GetTimeSinceStart() < SYNCMAN.startAt do
-            -- nothing
+        if SYNCMAN.startAt > 0 then
+            local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
+            SM(startDelay)
+            self:sleep(startDelay):queuecommand("DoStart")
+        else
+            self:queuecommand("DoStart")
         end
-
+    end,
+    DoStartCommand=function(self)
         SCREENMAN:GetTopScreen():PauseGame(false)
     end,
-
     JudgmentMessageCommand = function(self, params)
         local playerName = PROFILEMAN:GetPlayerName(params.Player)
         local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(params.Player)
