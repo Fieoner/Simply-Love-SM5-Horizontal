@@ -13,6 +13,8 @@ local isDouble = GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePla
 
 local t = Def.ActorFrame{
     OnCommand=function(self)
+        SCREENMAN:GetTopScreen():PauseGame(true)
+        
         for player in ivalues( PlayerNumber ) do
             if GAMESTATE:IsHumanPlayer(player) then
                 local playerName = PROFILEMAN:GetPlayerName(player)
@@ -26,11 +28,19 @@ local t = Def.ActorFrame{
                 -- })
             end
         end
-
-        SCREENMAN:GetTopScreen():PauseGame(true)
     end,
 
     SyncStartStartSyncMessageCommand=function(self)
+        if SYNCMAN.startAt > 0 then
+            local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
+            SM(startDelay)
+            self:sleep(startDelay):queuecommand("DoStart")
+        else
+            self:queuecommand("DoStart")
+        end
+    end,
+
+    DoStartCommand=function(self)
         SCREENMAN:GetTopScreen():PauseGame(false)
     end,
 

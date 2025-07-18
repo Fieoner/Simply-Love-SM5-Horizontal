@@ -63,6 +63,34 @@ for i = 1, MAX_PLAYER_COUNT do
 
     af[#af+1] = Def.BitmapText {
         Font=Font,
+        Text="",
+        InitCommand=function(self)
+            self:valign(0.5)
+            self:y(((i - 1) * rowHeight) - boxHeight)
+            self:x(70)
+            self:halign(1)
+            self:diffuse(Color.White)
+            self:visible(false)
+            self.playerIndex = playerIndex
+        end,
+        OnCommand=function(self)
+            self:queuecommand("SyncStartPlayersChangedMessageCommand")
+        end,
+        SyncStartPlayersChangedMessageCommand=function(self)
+            local players = SYNCMAN:GetCurrentPlayers()
+
+            if #players >= self.playerIndex then
+                local player = players[self.playerIndex]
+                self:settext(player.ping .. " ms")
+                self:visible(true)
+            else
+                self:visible(false)
+            end
+        end
+    }
+
+    af[#af+1] = Def.BitmapText {
+        Font=Font,
         Text="✔",
         InitCommand=function(self)
             self:valign(0.5)

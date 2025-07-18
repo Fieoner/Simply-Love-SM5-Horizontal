@@ -15,11 +15,10 @@ local af = Def.ActorFrame{
 
 	UpdateCommand=function(self)
 		local scores = SYNCMAN:GetCurrentPlayerScores()
-		SM(scores)
 		for i=1,NumHighScores do
 			if scores[i] then
 				local score = scores[i]
-				self:GetChild("HighScoreEntry"..i):GetChild("Name"):settext(score.playerName)
+				self:GetChild("HighScoreEntry"..i):GetChild("Name"):settext(score.player)
 				self:GetChild("HighScoreEntry"..i):GetChild("Score"):settext(score.score)
 			else
 				self:GetChild("HighScoreEntry"..i):GetChild("Name"):settext("----")
