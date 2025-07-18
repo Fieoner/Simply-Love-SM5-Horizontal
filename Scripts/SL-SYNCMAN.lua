@@ -12,14 +12,14 @@ SYNCMAN = {
 function SYNCMAN:WS()
     if not SYNCMAN.ws then
         SYNCMAN.ws = NETWORK:WebSocket{
-            url="ws://192.168.2.33:8765",
-            -- url="ws://itgonline.electromuis.nl",
+            -- url="ws://192.168.2.33:8765",
+            url="ws://itgonline.electromuis.nl",
             handshakeTimeout=3,
             pingInterval=5,
             automaticReconnect=true,
             sendThreaded=true,
             onMessage=function(msg)
-                SM(msg)
+                -- SM(msg)
                 local msgType = ToEnumShortString(msg.type)
 
                 if msgType == "Message" then
@@ -36,9 +36,7 @@ function SYNCMAN:WS()
                             MESSAGEMAN:Broadcast("SyncStartRoomsChanged")
                         elseif decoded.action == "start" then
                             MESSAGEMAN:Broadcast("SyncStartStart")
-                        elseif decoded.action == "start_sync" then
                             SYNCMAN.startAt = decoded.start_at or 0
-                            MESSAGEMAN:Broadcast("SyncStartStartSync")
                         elseif decoded.action == "time" then
                             SYNCMAN:Send({
                                 action = "time",
@@ -134,7 +132,7 @@ function SYNCMAN:Send(message)
     -- end
 
     local encoded = JsonEncode(message)
-    SM("SYNCMAN:Send: " .. encoded)
+    -- SM("SYNCMAN:Send: " .. encoded)
     -- local result = ws:Send(encoded, false)
     ws:Send(encoded, false)
     -- if not result then
