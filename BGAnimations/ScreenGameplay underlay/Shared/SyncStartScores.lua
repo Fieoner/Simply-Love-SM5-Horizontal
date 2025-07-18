@@ -29,16 +29,22 @@ local t = Def.ActorFrame{
             end
         end
 
-        if SYNCMAN.startAt > 0 then
-            local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
-            SM(startDelay)
-            self:sleep(startDelay):queuecommand("DoStart")
-        else
-            self:queuecommand("DoStart")
-        end
+        -- if SYNCMAN.startAt > 0 then
+        --     local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
+        --     SM(startDelay)
+        --     self:sleep(startDelay):queuecommand("DoStart")
+        -- else
+        --     self:queuecommand("DoStart")
+        -- end
+
+        self:queuecommand("DoStart")
     end,
-    
+
     DoStartCommand=function(self)
+        while GetTimeSinceStart() < SYNCMAN.startAt do
+            -- nothing
+        end
+
         SCREENMAN:GetTopScreen():PauseGame(false)
     end,
 
