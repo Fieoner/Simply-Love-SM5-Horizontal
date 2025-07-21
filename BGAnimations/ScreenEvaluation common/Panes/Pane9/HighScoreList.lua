@@ -18,11 +18,24 @@ local af = Def.ActorFrame{
 		for i=1,NumHighScores do
 			if scores[i] then
 				local score = scores[i]
+				local playerObj = nil
+				for _, player in ipairs(SYNCMAN:GetCurrentPlayers()) do
+					if player.name == score.player then
+						playerObj = player
+						break
+					end
+				end
+
 				self:GetChild("HighScoreEntry"..i):GetChild("Name"):settext(score.player)
-				self:GetChild("HighScoreEntry"..i):GetChild("Score"):settext(score.score)
+				self:GetChild("HighScoreEntry"..i):GetChild("Score"):settext(score.score .. "%")
+
+				if playerObj then
+					self:GetChild("HighScoreEntry"..i):GetChild("Diff"):settext(playerObj.diffLevel)
+				end
 			else
 				self:GetChild("HighScoreEntry"..i):GetChild("Name"):settext("----")
 				self:GetChild("HighScoreEntry"..i):GetChild("Score"):settext("------")
+				self:GetChild("HighScoreEntry"..i):GetChild("Diff"):settext("----")
 			end
 		end
 	end
@@ -55,14 +68,17 @@ for i=lower,upper do
 
 	row[#row+1] = LoadFont(Font)..{
 		Name="Name",
-		Text=name,
 		InitCommand=function(self) self:horizalign(left):xy(-110, row_index*row_height) end,
 	}
 
 	row[#row+1] = LoadFont(Font)..{
 		Name="Score",
-		Text=score,
 		InitCommand=function(self) self:horizalign(left):xy(-24, row_index*row_height) end,
+	}
+
+	row[#row+1] = LoadFont(Font)..{
+		Name="Diff",
+		InitCommand=function(self) self:horizalign(center):xy(80, row_index*row_height) end,
 	}
 
 	af[#af+1] = row

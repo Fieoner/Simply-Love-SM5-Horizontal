@@ -17,7 +17,7 @@ function SYNCMAN:WS()
             handshakeTimeout=3,
             pingInterval=5,
             automaticReconnect=true,
-            sendThreaded=true,
+            sendThreaded=false,
             onMessage=function(msg)
                 -- SM(msg)
                 local msgType = ToEnumShortString(msg.type)
@@ -144,18 +144,24 @@ function SYNCMAN:Send(message)
 end
 
 function SYNCMAN:Join(room)
-    local playerNames = {}
+    local players = {}
 
     for player in ivalues( PlayerNumber ) do
         if GAMESTATE:IsHumanPlayer(player) then
-            playerNames[#playerNames+1] = PROFILEMAN:GetPlayerName(player)
+            local steps = GAMESTATE:GetCurrentSteps(player)
+            -- playerNames[#playerNames+1] = SYNCMAN:PlayerName(player)
+            players[#players+1] = {
+                name = SYNCMAN:PlayerName(player),
+                diffLevel = steps:GetMeter(),
+                diffType = steps:GetDifficulty()
+            }
         end
     end
 
     SYNCMAN:Send({
         action = "join",
         room = room,
-        players = playerNames
+        players = players
     })
 
     -- if res then
@@ -209,4 +215,14 @@ function SYNCMAN:GetSyncOptionRow()
             end
 		end,
 	}
+end
+
+function SYNCMAN:PlayerName(player)
+    local pn = ToEnumShortString(player)
+    local gsName = SL[pn].GrooveStatsUsername
+    if string.len(gsName) > 0 then
+        return gsName
+    else
+        return PROFILEMAN:GetPlayerName(player)
+    end
 end

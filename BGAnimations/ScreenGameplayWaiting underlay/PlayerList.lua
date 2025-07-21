@@ -118,6 +118,60 @@ for i = 1, MAX_PLAYER_COUNT do
             end
         end
     }
+
+    af[#af+1] = Def.Quad{
+		InitCommand=function(self)
+			local spacing = 2
+            local yPos = ((i - 1) * rowHeight) - boxHeight
+            
+            self:halign(1)
+            self:zoomto(rowHeight, rowHeight)
+            self:xy(-100, yPos)
+            self:visible(false)
+            self.playerIndex = playerIndex
+		end,
+        OnCommand=function(self)
+            self:queuecommand("SyncStartPlayersChangedMessageCommand")
+        end,
+        SyncStartPlayersChangedMessageCommand=function(self)
+            local players = SYNCMAN:GetCurrentPlayers()
+
+            if #players >= self.playerIndex then
+                local player = players[self.playerIndex]
+                self:visible(true)
+                self:diffuse(DifficultyColor(player.diffType))
+            else
+                self:visible(false)
+            end
+        end
+	}
+
+    af[#af+1] = LoadFont("Common Bold")..{
+		InitCommand=function(self)
+			local spacing = 2
+            local yPos = ((i - 1) * rowHeight) - boxHeight
+            
+            self:halign(0.5)
+            self:zoom(0.35)
+            self:xy(-100 - (rowHeight/2), yPos)
+            self:visible(false)
+            self.playerIndex = playerIndex
+		end,
+        OnCommand=function(self)
+            self:queuecommand("SyncStartPlayersChangedMessageCommand")
+        end,
+        SyncStartPlayersChangedMessageCommand=function(self)
+            local players = SYNCMAN:GetCurrentPlayers()
+
+            if #players >= self.playerIndex then
+                local player = players[self.playerIndex]
+                self:visible(true)
+                self:settext(player.diffLevel)
+            else
+                self:visible(false)
+            end
+        end
+	}
 end
 
 return af

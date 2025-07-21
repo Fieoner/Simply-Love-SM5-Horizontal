@@ -17,21 +17,21 @@ local t = Def.ActorFrame{
 
         for player in ivalues( PlayerNumber ) do
             if GAMESTATE:IsHumanPlayer(player) then
-                local playerName = PROFILEMAN:GetPlayerName(player)
+                local playerName = SYNCMAN:PlayerName(player)
 
-                -- SYNCMAN:Send({
-                --     action = "score",
-                --     name = playerName,
-                --     score = "0.00",
-                --     health = 1.0,
-                --     failed = false
-                -- })
+                SYNCMAN:Send({
+                    action = "score",
+                    name = playerName,
+                    score = "0.00",
+                    health = 1.0,
+                    failed = false
+                })
             end
         end
 
         if SYNCMAN.startAt > 0 then
             local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
-            SM(startDelay)
+            -- SM(startDelay)
             self:sleep(startDelay):queuecommand("DoStart")
         else
             self:queuecommand("DoStart")
@@ -41,7 +41,7 @@ local t = Def.ActorFrame{
         SCREENMAN:GetTopScreen():PauseGame(false)
     end,
     JudgmentMessageCommand = function(self, params)
-        local playerName = PROFILEMAN:GetPlayerName(params.Player)
+        local playerName = SYNCMAN:PlayerName(params.Player)
         local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(params.Player)
         local dance_points = pss:GetPercentDancePoints()
         local percent = FormatPercentScore( dance_points ):sub(1,-2)
