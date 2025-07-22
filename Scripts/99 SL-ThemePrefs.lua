@@ -301,6 +301,11 @@ SL_CustomPrefs.Get = function()
 			Choices =  { THEME:GetString("ThemePrefs","Yes"), THEME:GetString("ThemePrefs","Always"), THEME:GetString("ThemePrefs", "No") }
 		},
 
+		ITGOnlineOffset = {
+			Default = 0,
+			Choices = {}
+		},
+
 		ScoringSystem = {
 			Default = "EX",
 			Choices  = { "EX", "ITG" }
@@ -363,8 +368,8 @@ SL_CustomPrefs.Validate = function()
 
 				local values = sl_prefs[k].Values or sl_prefs[k].Choices
 
-				if type( v ) ~= type( sl_prefs[k].Default )
-				or (values and not FindInTable(v, values))
+				if (type( v ) ~= type( sl_prefs[k].Default )
+				or (values and not FindInTable(v, values)) and k ~= "ITGOnlineOffset")
 				then
 					-- overwrite the user's erroneous setting with the default value
 					ThemePrefs.Set(k, sl_prefs[k].Default)

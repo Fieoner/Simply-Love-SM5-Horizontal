@@ -32,6 +32,8 @@ local t = Def.ActorFrame{
         if SYNCMAN.startAt > 0 then
             local startDelay = SYNCMAN.startAt - GetTimeSinceStart()
             -- SM(startDelay)
+            local networkOffset = ThemePrefs.Get("ITGOnlineOffset")
+            startDelay = startDelay + networkOffset
             self:sleep(startDelay):queuecommand("DoStart")
         else
             self:queuecommand("DoStart")
