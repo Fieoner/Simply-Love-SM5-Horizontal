@@ -302,7 +302,7 @@ SL_CustomPrefs.Get = function()
 		},
 
 		ITGOnlineOffset = {
-			Default = 0,
+			Default = 300,
 			Choices = {}
 		},
 

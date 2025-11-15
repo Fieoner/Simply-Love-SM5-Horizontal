@@ -6,13 +6,13 @@ if SYNCMAN:IsInGame() then
 
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		local sl_pn = SL[ToEnumShortString(pn)]
-		sl_pn.EvalPanePrimary = 9
+		sl_pn.EvalPanePrimary = 2
 	end
 else
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		local sl_pn = SL[ToEnumShortString(pn)]
 		sl_pn.EvalPanePrimary = 1
-		
+
 		if ThemePrefs.Get("EnableTournamentMode") then
 			sl_pn.EvalPanePrimary = 2
 		end

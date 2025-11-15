@@ -13,7 +13,7 @@ function SYNCMAN:WS()
     if not SYNCMAN.ws then
         SYNCMAN.ws = NETWORK:WebSocket{
             -- url="ws://192.168.2.33:8765",
-            url="ws://itgonline.electromuis.nl",
+            url="ws://localhost:8765",
             handshakeTimeout=3,
             pingInterval=5,
             automaticReconnect=true,
@@ -71,7 +71,7 @@ function SYNCMAN:IsInGame()
     if not SYNCMAN.inGame then
         return false
     end
-    
+
     return true
 end
 
