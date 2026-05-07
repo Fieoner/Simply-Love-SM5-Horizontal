@@ -34,6 +34,12 @@ local knownDisconnectScreens = {
   ["ScreenOptionsService"] = true,
 }
 
+local holding = {
+	["MenuLeft"] = false,
+	["MenuRight"] = false,
+}
+local showScore = true
+
 -- TESTING Variables
 local host = "syncservice.groovestats.com"
 local port = 1337
@@ -77,7 +83,15 @@ local InputHandler = function(event)
 			lastDisconnectCountdown = nil
 		end
 	end
-
+	if event.type == "InputEventType_FirstPress" and holding[event.GameButton] ~= nil then
+		holding[event.GameButton] = true
+		if holding[event.GameButton == "MenuLeft" and "MenuRight" or "MenuLeft"] then
+			showScore = not showScore
+			MESSAGEMAN:Broadcast("ShowHide", {show=showScore})
+		end
+	elseif event.type == "InputEventType_Release" and holding[event.GameButton] ~= nil then
+		holding[event.GameButton] = false
+	end
 	return false
 end
 
@@ -221,14 +235,14 @@ local OrderPlayers = function(data, localScreenName)
 	-- Sort the players by score.
 	-- TODO(teejusb): Determine how to do toggle between score and exScore.
 	table.sort(updatedData.players, function(a, b)
-		-- a.score or b.score can be nil, so we need to handle that.
-		if a.score == nil then
+		-- a.exScore or b.exScore can be nil, so we need to handle that.
+		if a.exScore == nil then
 			return false
 		end
-		if b.score == nil then
+		if b.exScore == nil then
 			return true
 		end
-		return a.score > b.score
+		return a.exScore > b.exScore
 	end)
 
 	-- Then add all the other players in other screens below.
@@ -441,7 +455,7 @@ GetOnlineHandlerInstance = function()
 	return onlineHandlerInstance
 end
 
-CreateOnlineHandler = function() 
+CreateOnlineHandler = function()
   if onlineHandler == nil then
     onlineHandler = Def.ActorFrame{
       Name="OnlineWebsocketHandler",
@@ -554,25 +568,25 @@ CreateOnlineHandler = function()
         end
       end,
       PlayerJoinedMessageCommand=function(self)
-				if self.connected and self.socket ~= nil and self.inLobby then	
+				if self.connected and self.socket ~= nil and self.inLobby then
           local request = CreateRequest("updateMachine", GetMachineState())
           self.socket:Send(request)
         end
       end,
       PlayerUnjoinedMessageCommand=function(self)
-				if self.connected and self.socket ~= nil and self.inLobby then	
+				if self.connected and self.socket ~= nil and self.inLobby then
           local request = CreateRequest("updateMachine", GetMachineState())
           self.socket:Send(request)
         end
       end,
       UpdateMachineStateMessageCommand=function(self)
-				if self.connected and self.socket ~= nil and self.inLobby then	
+				if self.connected and self.socket ~= nil and self.inLobby then
           local request = CreateRequest("updateMachine", GetMachineState())
           self.socket:Send(request)
         end
       end,
       ExCountsChangedMessageCommand=function(self)
-				if self.connected and self.socket ~= nil and self.inLobby then	
+				if self.connected and self.socket ~= nil and self.inLobby then
           local request = CreateRequest("updateMachine", GetMachineState())
           self.socket:Send(request)
         end
@@ -642,6 +656,7 @@ CreateOnlineHandler = function()
         self.socket = nil
 				self:GetChild("Display"):GetChild("Text"):settext("")
         self:GetChild("Display"):visible(false)
+		showScore = true
       end,
 
       Def.ActorFrame{
@@ -688,11 +703,14 @@ CreateOnlineHandler = function()
 
           self:GetChild("Text"):playcommand("Resize", {width=width, height=height, text=params.text})
         end,
+		ShowHideMessageCommand=function(self, params)
+		  self:visible(params["show"])
+		end,
 
         Def.Quad{
           Name="Background",
           InitCommand=function(self)
-            self:zoomto(SCREEN_WIDTH / 3, SCREEN_HEIGHT):diffuse(0, 0, 0, 0.5)
+            self:zoomto(SCREEN_WIDTH / 3, SCREEN_HEIGHT):diffuse(0, 0, 0, 0.3)
           end,
         },
 
